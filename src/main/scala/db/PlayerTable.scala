@@ -12,7 +12,7 @@ class PlayerTable(tag: Tag) extends Table[Player](tag, "players"): // Using slic
   def passwordHash = column[String]("password_hash")
   def points = column[Double]("points")
   def * : ProvenShape[Player] =
-    (id, name, email, passwordHash, points) <> (Player.apply.tupled, Player.unapply) // Maps tuple (db row) into food item (object)
+    (id, name, email, passwordHash, points) <> (Player.apply.tupled, Player.unapply) // Maps tuple (db row) into player item (object)
 
 object PlayerTable:
   val players = TableQuery[PlayerTable]
