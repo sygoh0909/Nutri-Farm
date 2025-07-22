@@ -27,8 +27,12 @@ object Landing:
       spacing = 20
       padding = Insets(40)
       alignment = Pos.Center
+      style = "-fx-background-image: url('" + getClass.getResource("/bg.jpg").toExternalForm + "');" +
+        "-fx-background-size: cover;" +
+        "-fx-background-repeat: no-repeat;" +
+        "-fx-background-position: center center;"
       children = Seq(
-        new Label("Welcome to Nutri Farm!") {
+        new Label("🌱 Welcome to Nutri Farm!") {
           styleClass += "title"
         },
         new HBox {
