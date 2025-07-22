@@ -22,7 +22,8 @@ lazy val root = (project in file("."))
 
       // Source: https://scala-slick.org/
       "com.typesafe.slick" %% "slick" % "3.5.2", // Database access library for scala
-      "org.postgresql" % "postgresql" % "42.7.4" // Allows connection to PostgreSQL databases (JDBC Driver)
+      "org.postgresql" % "postgresql" % "42.7.4", // Allows connection to PostgreSQL databases (JDBC Driver)
+      "org.mindrot" % "jbcrypt" % "0.4" // jBCrypt for password hashing
     )
   )
 //enable for sbt-assembly
