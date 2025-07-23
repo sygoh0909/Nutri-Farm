@@ -39,17 +39,17 @@ object Landing:
           spacing = 15
           alignment = Pos.Center
           children = Seq(
-            new Button("🔐 Login") { // Login Option
+            new Button("\uD83D\uDC64 Login") { // Login Option
               styleClass += "game-button"
               onAction = _ => showLoginPopup()
             },
-            new Button("📝 Register") { // Register Option
+            new Button("\uD83C\uDD95 Register") { // Register Option
               styleClass += "game-button"
               onAction = _ => showRegisterPopup()
             }
           )
         },
-        new Button("🚶 Continue as Guest") { // Continue as Guest Option
+        new Button("Continue as Guest") { // Continue as Guest Option
           styleClass += "guest-button"
           onAction = _ =>
             loggedInPlayer = Some(Player(0, "Guest", "", "", 0.0))
