@@ -5,6 +5,9 @@ import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.Scene
 
+// Global scalaFX reference: https://javadoc.io/doc/org.scalafx/scalafx_3/latest/index.html
+// This documentation was used as a general reference throughout the entire program
+
 // Main method
 object MainProgram extends JFXApp3:
   override def start(): Unit =
