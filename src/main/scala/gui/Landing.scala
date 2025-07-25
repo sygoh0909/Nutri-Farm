@@ -23,18 +23,18 @@ object Landing:
         "-fx-background-repeat: no-repeat;" +
         "-fx-background-position: center center;"
       children = Seq(
-        new Label("🌱 Welcome to Nutri Farm!") {
+        new Label("Welcome to Nutri Farm!") {
           styleClass += "title"
         },
         new HBox {
           spacing = 15
           alignment = Pos.Center
           children = Seq(
-            new Button("\uD83D\uDC64 Login") { // Login Option
+            new Button("Login") { // Login Option
               styleClass += "game-button"
               onAction = _ => LandingController.showLoginPopup()
             },
-            new Button("\uD83C\uDD95 Register") { // Register Option
+            new Button("Register") { // Register Option
               styleClass += "game-button"
               onAction = _ => LandingController.showRegisterPopup()
             }
