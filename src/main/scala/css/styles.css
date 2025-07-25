@@ -92,3 +92,7 @@
 .landing-bg {
     -fx-background-image: url("/landing.jpg");
 }
+
+.home-bg {
+    -fx-background-image: url("/home.jpg");
+}
