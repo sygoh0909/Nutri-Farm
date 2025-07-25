@@ -18,10 +18,8 @@ object Landing:
       spacing = 20
       padding = Insets(40)
       alignment = Pos.Center
-      style = "-fx-background-image: url('" + getClass.getResource("/bg.jpg").toExternalForm + "');" +
-        "-fx-background-size: cover;" +
-        "-fx-background-repeat: no-repeat;" +
-        "-fx-background-position: center center;"
+      styleClass ++= Seq("bg-base", "landing-bg") // Adds multiple CSS class names to a node's style class list in one line.
+
       children = Seq(
         new Label("Welcome to Nutri Farm!") {
           styleClass += "title"
