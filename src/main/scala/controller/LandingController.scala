@@ -17,15 +17,15 @@ import scalafx.scene.layout.GridPane
 import scala.util.{Failure, Success}
 
 object LandingController:
-
+  
   var loggedInPlayer: Option[Player] = None
   private var appStage: Stage = _
-
+  
   def setStage (stage: Stage): Unit =
     appStage = stage
-
+    
   def loginAsGuest(): Unit =
-    loggedInPlayer = Some(Player(0, "Guest", "", "", 0.0))
+    loggedInPlayer = Some(Player(0, "Guest", "", "", 0))
     println("Logged in as guest")
     Platform.runLater {
       appStage.scene().setRoot(Home.build(loggedInPlayer.get, appStage))
@@ -138,7 +138,7 @@ object LandingController:
             }
           case Success(None) =>
             val hashed = BCrypt.hashpw(password, BCrypt.gensalt()) // Encrypt password for safety purposes
-            val player = Player(0, name, email, hashed, 0.0)
+            val player = Player(0, name, email, hashed, 0)
             PlayerDAO.insert(player).onComplete {
               // Successful register account, and added to db
               case Success(_) =>
