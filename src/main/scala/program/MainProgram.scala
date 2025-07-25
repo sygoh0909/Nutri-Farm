@@ -13,7 +13,7 @@ object MainProgram extends JFXApp3:
   override def start(): Unit =
     stage = new PrimaryStage:
       title = "Nutri-Farm"
-      scene = new Scene(800, 600) {
+      scene = new Scene(1280, 720) {
         stylesheets.add(getClass.getResource("/css/styles.css").toExternalForm)
       }
 
