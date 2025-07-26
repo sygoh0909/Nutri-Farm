@@ -96,7 +96,3 @@
 .home-bg {
     -fx-background-image: url("/home.jpg");
 }
-
-.garden-bg {
-    -fx-background-image: url("/garden.jpg");
-}

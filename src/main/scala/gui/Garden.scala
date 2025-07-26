@@ -10,11 +10,11 @@ import scalafx.stage.Stage
 object Garden:
 
   def build(stage: Stage, player: Player): VBox =
-    val gardenGrid = GardenController.buildGrid()
-    val controlPanel = GardenController.buildControlPanel(stage, player)
+    val gardenGrid = GardenController.buildGrid() // Plan to add grid planting logic in garden controller
 
+    // Link back to home page
     val backButton = new Button("Back to Home") {
-      styleClass.add("game-button")
+      styleClass.add("back-button") // Plan to implement in css file
       onAction = _ => stage.scene().setRoot(Home.build(player, stage))
     }
 
@@ -24,13 +24,11 @@ object Garden:
       alignment = Pos.Center
       prefWidth = 1200
       prefHeight = 850
-      styleClass ++= Seq("bg-base", "garden-bg")
       children = Seq(
         new Label("Garden - Start Farming here!") {
-          styleClass.add("title")
+          styleClass.add("title-label")
         },
         gardenGrid,
-        controlPanel,
         backButton
       )
     }
