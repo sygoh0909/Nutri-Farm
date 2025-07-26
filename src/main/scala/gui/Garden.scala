@@ -23,8 +23,6 @@ object Garden:
       spacing = 30
       padding = Insets(40)
       alignment = Pos.Center
-      prefWidth = 1200
-      prefHeight = 850
       styleClass ++= Seq("bg-base", "garden-bg")
       children = Seq(
         new Label("Garden - Start Farming here!") {
