@@ -53,7 +53,9 @@ object Home:
           children = Seq(
             new Button("Start Farming Now") {
               styleClass += "game-button"
-              // Navigate to the planting/garden page
+              // Link to garden page to start planting/farming
+              onAction = _ =>
+              stage.scene().setRoot(Garden.build(stage, player))
             },
             // Player account with settings page
             new Button("Account") {
