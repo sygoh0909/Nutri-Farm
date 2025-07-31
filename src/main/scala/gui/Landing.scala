@@ -9,7 +9,6 @@ import scalafx.stage.Stage
 
 object Landing:
 
-  // Source: https://javadoc.io/doc/org.scalafx/scalafx_3/latest/scalafx/scene/layout/VBox.html
   // GUI layout for the landing page
   def build(stage: Stage): VBox =
     LandingController.setStage(stage) // Call the controller to process

@@ -3,7 +3,6 @@ package gui
 import model.Player
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.*
-// Source: https://javadoc.io/static/org.scalafx/scalafx_3/24.0.0-R35/scalafx/scene/control/Alert$.html
 import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.layout.{HBox, VBox}
 import scalafx.stage.Stage

@@ -4,7 +4,6 @@ import slick.jdbc.PostgresProfile.api._ // Core Slick components
 import slick.lifted.{ProvenShape, Tag} // To use table/tag
 import model.FoodItem
 
-// Source: https://scala-slick.org/doc/3.5.0-M1/schemas.html
 class FoodTable(tag: Tag) extends Table[FoodItem](tag, "food_items"): // Using slick FRM mapping
   def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def name = column[String]("name")

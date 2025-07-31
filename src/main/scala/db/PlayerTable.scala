@@ -4,7 +4,6 @@ import slick.jdbc.PostgresProfile.api._ // Core Slick components
 import slick.lifted.{ProvenShape, Tag} // To use table/tag
 import model.Player // Connect to player case class
 
-// Source: https://scala-slick.org/doc/3.5.0-M1/schemas.html
 class PlayerTable(tag: Tag) extends Table[Player](tag, "players"): // Using slick FRM mapping
   def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def name = column[String]("name")

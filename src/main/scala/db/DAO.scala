@@ -5,7 +5,6 @@ import slick.jdbc.PostgresProfile.api._
 import scala.concurrent.Future
 
 // Data access object (DAO) to map custom functions for different db
-// Source: https://scala-slick.org/doc/3.5.0-M1/database.html
 object PlayerDAO: // Provides functions to interact with player table
   // Modified by ChatGPT
   def insert(player: Player): Future[Int] = // Insert new player to db player table

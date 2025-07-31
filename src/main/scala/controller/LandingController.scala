@@ -6,7 +6,6 @@ import scalafx.application.Platform
 import scalafx.stage.Stage
 import gui.Home
 import scalafx.Includes.*
-// Source: https://docs.scala-lang.org/overviews/core/futures.html
 import scala.concurrent.ExecutionContext.Implicits.global // Allows Future operations to run asynchronously in the bg
 import gui.Landing.getClass
 import org.mindrot.jbcrypt.BCrypt
@@ -25,7 +24,7 @@ object LandingController:
     appStage = stage
     
   def loginAsGuest(): Unit =
-    loggedInPlayer = Some(Player(0, "Guest", "", "", 0))
+    loggedInPlayer = Some(Player(0, "Guest", "", "", 0)) // All player that continued as guest, name will be set as general "Guest"
     println("Logged in as guest")
     Platform.runLater {
       appStage.scene().setRoot(Home.build(loggedInPlayer.get, appStage))
@@ -33,7 +32,6 @@ object LandingController:
 
   // Login feature (popup)
   def showLoginPopup(): Unit =
-    // Source: https://javadoc.io/doc/org.scalafx/scalafx_3/latest/scalafx/scene/control/Dialog.html
     val dialog = new Dialog[Unit]():
       title = "Login"
       headerText = "Enter your credentials"
@@ -65,11 +63,9 @@ object LandingController:
         // Asynchronous call (to db)
         PlayerDAO.findByEmail(email).onComplete { // on Complete is Future operations
           case Success(Some(player)) =>
-            // Source: https://github.com/jeremyh/jBCrypt
             if BCrypt.checkpw(password, player.passwordHash) then // Check/compare password hash
               loggedInPlayer = Some(player)
               println(s"Login successful! Welcome, ${player.name}.") // For testing
-              // Source: https://javadoc.io/doc/org.scalafx/scalafx_3/latest/scalafx/application/Platform$.html#runLater(action:=%3EUnit):Unit
               Platform.runLater { // Used to safely update the UI from a background thread
                 appStage.scene().setRoot(Home.build(player, appStage)) // Bring user to home page if successful validated
               }
