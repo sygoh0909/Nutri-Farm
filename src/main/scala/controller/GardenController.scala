@@ -1,14 +1,13 @@
 package controller
 
 import db.FoodDAO
-import model.{FoodItem}
+import model.FoodItem
 import scalafx.geometry.{Insets, Pos}
-import scalafx.scene.control.{ChoiceBox}
-import scalafx.scene.layout.{GridPane, HBox, VBox}
+import scalafx.scene.layout.{GridPane, VBox}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.control.{Button, Label, ProgressBar}
-import scalafx.scene.layout.{StackPane}
+import scalafx.scene.layout.StackPane
 
 object GardenController:
 
