@@ -11,7 +11,7 @@ object Garden:
 
   def build(stage: Stage, player: Player): VBox =
     val gardenGrid = GardenController.buildGrid() // Planning to implement in controller
-//    val controlPanel = GardenController.buildControlPanel(stage, player) // Planning to implement in controller
+    val controlPanel = GardenController.buildControlPanel(stage, player) // Planning to implement in controller
 
     // Back to home page
     val backButton = new Button("Back to Home") {
@@ -29,7 +29,7 @@ object Garden:
           styleClass.add("title") // Will set specific title style here later
         },
         gardenGrid,
-//        controlPanel,
+        controlPanel,
         backButton
       )
     }
