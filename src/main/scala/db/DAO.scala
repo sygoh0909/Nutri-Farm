@@ -24,3 +24,6 @@ object FoodDAO: // Provides functions to interact with food item table
 
   def getAll(): Future[Seq[FoodItem]] = // Get all foods
     DBConfig.db.run(FoodTable.foodItem.result)
+
+  def getByPlayerId(playerID: Int): Future[Seq[FoodItem]] =
+    DBConfig.db.run(FoodTable.foodItem.filter(_.playerID === playerID).result)
