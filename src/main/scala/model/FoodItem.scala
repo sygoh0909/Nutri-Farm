@@ -1,3 +1,3 @@
 package model
 
-case class FoodItem(id: Int, name: String, nutrition: String, calories: Double)
+case class FoodItem(id: Int, name: String, nutrition: String, calories: Double, playerID: Int)
