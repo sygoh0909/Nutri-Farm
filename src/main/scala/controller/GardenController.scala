@@ -1,11 +1,18 @@
 package controller
 
 import db.FoodDAO
-import model.FoodItem
+import gui.Inventory
+import model.{FoodItem, Player}
+import scalafx.application.Platform
+import scalafx.collections.ObservableBuffer
 import scalafx.geometry.{Insets, Pos}
-import scalafx.scene.layout.{GridPane, VBox}
+import scalafx.scene.control.ChoiceBox
+import scalafx.scene.layout.{GridPane, HBox, VBox}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Rectangle
+import scalafx.stage.Stage
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scalafx.scene.control.{Button, Label, ProgressBar}
 import scalafx.scene.layout.StackPane
 
@@ -150,3 +157,83 @@ object GardenController:
 
     grid
 
+  // Planting logic
+  def buildControlPanel(stage: Stage, player: Player): VBox =
+    val inventoryLabel = new Label("Harvest to save food item to inventory") {
+      style = "-fx-text-fill: #444;"
+      // Implement better css later
+    }
+
+    // Inventory button
+    val inventoryButton = new Button("View Inventory") {
+      onAction = _ => stage.scene().setRoot(Inventory.build(player, stage))
+      // Implement css later for the button
+      // Maybe will move to garden ui file
+    }
+
+    // Dropdown to let user choose what crop to plant
+    // Implement css later
+    val cropTypes = new ChoiceBox[String] {
+      items = ObservableBuffer("Carrot", "Tomato", "Lettuce")
+      value = "Carrot"
+    }
+
+    // Plant the selected crop in the selected plot
+    // Implement btn css later
+    val plantButton = new Button("Plant Crop") {
+      onAction = _ =>
+        val crop = cropTypes.value.value
+        val row = selectedRow
+        val col = selectedCol
+
+        // Only allow planting if the plot is empty
+        if gardenCrop(row)(col) == "Empty" then
+          gardenCrop(row)(col) = crop
+          gardenStatus(row)(col) = "Growing"
+          emojiLabels(row)(col).text = "\uD83C\uDF31" // Refine later
+          statusTexts(row)(col).text = "Growing..."
+          progressBars(row)(col).progress = 0.0
+          progressBars(row)(col).visible = true
+          statusTexts(row)(col).visible = true
+          harvestButtons(row)(col).visible = false
+
+          // Background thread to simulate growth
+          Future {
+            for i <- 1 to 100 do
+              Thread.sleep(30)
+              val progress = i / 100.0
+              Platform.runLater {
+                progressBars(row)(col).progress = progress
+              }
+
+            // Crop status and harvest btn will be updated once the crop is grown
+            Platform.runLater {
+              gardenStatus(row)(col) = "Ready"
+              emojiLabels(row)(col).text = cropEmoji(crop)
+              statusTexts(row)(col).text = "Ready to Harvest"
+              harvestButtons(row)(col).visible = true
+            }
+          }
+        else
+          // Alert message if the plot already has something
+          inventoryLabel.text = s"Plot already has ${gardenCrop(row)(col)}"
+    }
+
+    // Control panel layout containing crop selection and inventory access
+    new VBox {
+      spacing = 12
+      alignment = Pos.Center
+      padding = Insets(10)
+      children = Seq(
+        new HBox {
+          spacing = 10
+          alignment = Pos.Center
+          children = Seq(new Label("Crop:"), cropTypes, plantButton)
+        },
+        new HBox {
+          spacing = 10
+          alignment = Pos.Center
+          children = Seq(inventoryLabel, inventoryButton)
+        }
+      )
+    }
