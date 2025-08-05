@@ -44,7 +44,7 @@ object LandingController:
       headerText = "Enter your credentials"
 
     dialog.dialogPane().buttonTypes = Seq(ButtonType.OK, ButtonType.Cancel)
-    val stylesheet = getClass.getResource("/css/styles.css").toExternalForm // Connect to global css file
+    val stylesheet = getClass.getResource("/css/global.css").toExternalForm // Connect to global css file
     dialog.dialogPane().stylesheets.add(stylesheet) // Add styles to the dialogue
 
     val emailField = new TextField() { promptText = "Email" }
@@ -106,7 +106,7 @@ object LandingController:
       headerText = "Create a new account"
 
     dialog.dialogPane().buttonTypes = Seq(ButtonType.OK, ButtonType.Cancel)
-    val stylesheet = getClass.getResource("/css/styles.css").toExternalForm
+    val stylesheet = getClass.getResource("/css/global.css").toExternalForm
     dialog.dialogPane().stylesheets.add(stylesheet)
 
     val nameField = new TextField() { promptText = "Name" }
