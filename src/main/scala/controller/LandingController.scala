@@ -22,10 +22,13 @@ object LandingController:
   
   def setStage (stage: Stage): Unit =
     appStage = stage
-    
+
+  var guestCounter = 0 // Global counter, only increases per guest login
+
   def loginAsGuest(): Unit =
-    loggedInPlayer = Some(Player(0, "Guest", "", "", 0)) // All player that continued as guest, name will be set as general "Guest"
-    println("Logged in as guest")
+    guestCounter -= 1
+    loggedInPlayer = Some(Player(guestCounter, "Guest", "", "", 0))
+    println(s"Logged in as guest with ID $guestCounter")
     Platform.runLater {
       appStage.scene().setRoot(Home.build(loggedInPlayer.get, appStage))
     }
