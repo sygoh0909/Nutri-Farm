@@ -52,7 +52,7 @@ object GardenController:
     case _         => ("", 0.0)
 
   // Build garden plot grid
-  def buildGrid(): GridPane =
+  def buildGrid(stage: Stage, player: Player): GridPane =
     val grid = new GridPane {
       hgap = 30
       vgap = 30
@@ -97,7 +97,7 @@ object GardenController:
           val crop = gardenCrop(row)(col)
           val (nutri, cal) = cropNutrition(crop)
 
-          FoodDAO.insert(FoodItem(0, crop, nutri, cal))
+          FoodDAO.insert(FoodItem(0, crop, nutri, cal, player.id))
           gardenCrop(row)(col) = "Empty"
           gardenStatus(row)(col) = "Empty"
 

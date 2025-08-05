@@ -10,7 +10,7 @@ import scalafx.stage.Stage
 object Garden:
 
   def build(stage: Stage, player: Player): VBox =
-    val gardenGrid = GardenController.buildGrid() // Planning to implement in controller
+    val gardenGrid = GardenController.buildGrid(stage, player) // Planning to implement in controller
     val controlPanel = GardenController.buildControlPanel(stage, player) // Planning to implement in controller
 
     // Back to home page
