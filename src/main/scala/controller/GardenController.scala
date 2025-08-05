@@ -1,7 +1,7 @@
 package controller
 
 import db.FoodDAO
-import gui.Inventory
+import gui.MealBuilder
 import model.{FoodItem, Player}
 import scalafx.application.Platform
 import scalafx.collections.ObservableBuffer
@@ -11,6 +11,7 @@ import scalafx.scene.layout.{GridPane, HBox, VBox}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Rectangle
 import scalafx.stage.Stage
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scalafx.scene.control.{Button, Label, ProgressBar}
@@ -159,16 +160,21 @@ object GardenController:
 
   // Planting logic
   def buildControlPanel(stage: Stage, player: Player): VBox =
-    val inventoryLabel = new Label("Harvest to save food item to inventory") {
+    val inventoryLabel = new Label("Harvest to save food item") { // will change naming later
       style = "-fx-text-fill: #444;"
       // Implement better css later
     }
 
-    // Inventory button
-    val inventoryButton = new Button("View Inventory") {
-      onAction = _ => stage.scene().setRoot(Inventory.build(player, stage))
-      // Implement css later for the button
-      // Maybe will move to garden ui file
+    // Button to meal builder page
+    val mealBuilderButton = new Button("Go to Meal Builder") {
+      style = "-fx-background-color: #3F51B5; -fx-text-fill: white;"
+      onAction = _ =>
+        // Load inventory again and pass to MealBuilder
+        FoodDAO.getByPlayerId(player.id).foreach { items =>
+          Platform.runLater {
+            stage.scene().setRoot(MealBuilder.build(player, items, stage))
+          }
+        }
     }
 
     // Dropdown to let user choose what crop to plant
@@ -233,7 +239,7 @@ object GardenController:
         new HBox {
           spacing = 10
           alignment = Pos.Center
-          children = Seq(inventoryLabel, inventoryButton)
+          children = Seq(inventoryLabel, mealBuilderButton)
         }
       )
     }
