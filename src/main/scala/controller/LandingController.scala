@@ -25,13 +25,17 @@ object LandingController:
 
   var guestCounter = 0 // Global counter, only increases per guest login
 
-  def loginAsGuest(): Unit =
-    guestCounter -= 1
-    loggedInPlayer = Some(Player(guestCounter, "Guest", "", "", 0))
-    println(s"Logged in as guest with ID $guestCounter")
+  def loginAsGuest(): Unit = {
+    val guestId = System.currentTimeMillis().toInt // Using current timestamp (include date, time)
+    val guestPlayer = Player(guestId, "Guest", "", "", 0)
+    loggedInPlayer = Some(guestPlayer)
+    println(s"Logged in as Guest with ID $guestId")
+
     Platform.runLater {
-      appStage.scene().setRoot(Home.build(loggedInPlayer.get, appStage))
+      appStage.scene().setRoot(Home.build(guestPlayer, appStage))
     }
+  }
+
 
   // Login feature (popup)
   def showLoginPopup(): Unit =
