@@ -41,9 +41,9 @@ object GardenController:
 
   // Show different crops as emoji (for now)
   private def cropEmoji(crop: String): String = crop match
-    case "Carrot"  => "🥕" // Maybe will change to picture afterwards
+    case "Carrot"  => "🥕"
     case "Tomato"  => "🍅"
-    case "Lettuce" => "🥬"
+    case "Lettuce" => "\uD83C\uDF3F" // Finding a better one
     case _         => "🌱"
 
   // Utility method to get nutrition info
@@ -63,7 +63,7 @@ object GardenController:
     for row <- 0 until rows do
       for col <- 0 until cols do
         val emojiLabel = new Label("\uD83C\uDF31") {
-          styleClass += "crop-emoji"
+          styleClass ++= Seq("crop-emoji", "default-emoji")
           mouseTransparent = true
         }
 
@@ -254,9 +254,16 @@ object GardenController:
               // When growing finishes, show only harvest button
               Platform.runLater {
                 gardenStatus(row)(col) = "Ready"
-                emojiLabels(row)(col).text = cropEmoji(selectedCrop)
-                statusTexts(row)(col).visible = false // Hide status text
-                harvestButtons(row)(col).visible = true // Show only the harvest button
+
+                val emojiLabel = emojiLabels(row)(col)
+                emojiLabel.text = cropEmoji(selectedCrop)
+
+                // Clear old crop-specific classes (if any) and add new one
+                emojiLabel.styleClass --= Seq("carrot-emoji", "tomato-emoji", "lettuce-emoji", "default-emoji")
+                emojiLabel.styleClass += (selectedCrop.toLowerCase + "-emoji")
+
+                statusTexts(row)(col).visible = false
+                harvestButtons(row)(col).visible = true
               }
             }
           else
@@ -271,7 +278,7 @@ object GardenController:
       children = Seq(plantButton)
     }
 
-    // Locate button on same lines 
+    // Locate button on same lines
     val navigationBox = new HBox {
       spacing = 10
       alignment = Pos.Center

@@ -30,8 +30,24 @@
 }
 
 .crop-emoji {
-    -fx-font-size: 34px;
-    -fx-padding: 0 0 5px 0;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.carrot-emoji {
+    -fx-text-fill: orange;
+}
+
+.tomato-emoji {
+    -fx-text-fill: red;
+}
+
+.lettuce-emoji {
+    -fx-text-fill: green;
+}
+
+.default-emoji {
+    -fx-text-fill: #999999; /* grayish for unplanted */
 }
 
 .status-label {
