@@ -1,27 +1,28 @@
 package controller
 
 import db.FoodDAO
-import gui.MealBuilder
+import gui.{Home, MealBuilder}
 import model.{FoodItem, Player}
 import scalafx.application.Platform
-import scalafx.collections.ObservableBuffer
-import scalafx.geometry.{Insets, Pos}
-import scalafx.scene.control.ChoiceBox
+import scalafx.collections.ObservableBuffer // For creating observable lists that auto-update the UI
+import scalafx.geometry.Pos
+import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.layout.{GridPane, HBox, VBox}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Rectangle
 import scalafx.stage.Stage
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scalafx.scene.control.{Button, Label, ProgressBar}
-import scalafx.scene.layout.StackPane
+import scalafx.scene.control.{Alert, Button, Label, ProgressBar}
+import scalafx.scene.layout.StackPane // Container that stacks children nodes on top of each other
 
 object GardenController:
 
   // Garden dimensions (2 rows, 6 columns)
   private val rows = 2
   private val cols = 6
+
+  private var plantButton: Button = _
 
   // Track planted crops their growth status
   private val gardenCrop = Array.fill(rows, cols)("Empty")
@@ -55,29 +56,26 @@ object GardenController:
   // Build garden plot grid
   def buildGrid(stage: Stage, player: Player): GridPane =
     val grid = new GridPane {
-      hgap = 30
-      vgap = 30
-      padding = Insets(20)
-      alignment = Pos.Center
+      styleClass += "garden-grid"
     }
 
     // Create a garden tile for each plot
     for row <- 0 until rows do
       for col <- 0 until cols do
-        val emojiLabel = new Label("\uD83C\uDF31") { // Will update this later for better display
-          style = "-fx-font-size: 28px;"
+        val emojiLabel = new Label("\uD83C\uDF31") {
+          styleClass += "crop-emoji"
           mouseTransparent = true
         }
 
         // Crop status
         val statusLabel = new Label("Empty") {
-          style = "-fx-font-size: 13px;"
+          styleClass += "status-label"
           visible = false
         }
 
         // Progress bar (growing status)
         val progressBar = new ProgressBar {
-          prefWidth = 100
+          styleClass += "progress-bar"
           progress = 0.0
           visible = false
         }
@@ -85,6 +83,7 @@ object GardenController:
         // Will show when crop is grown (btn)
         val harvestBtn = new Button("Harvest") {
           visible = false
+          styleClass += "harvest-button"
         }
 
         // Save UI elements to arrays to update later
@@ -94,31 +93,58 @@ object GardenController:
         harvestButtons(row)(col) = harvestBtn
 
         // If player harvest (press the btn) the crop, crop will be saved to their inventory and the crop will be reset to empty
-        harvestBtn.onAction = _ =>
+        harvestButtons(row)(col).onAction = _ => {
           val crop = gardenCrop(row)(col)
-          val (nutri, cal) = cropNutrition(crop)
 
-          FoodDAO.insert(FoodItem(0, crop, nutri, cal, player.id))
-          gardenCrop(row)(col) = "Empty"
-          gardenStatus(row)(col) = "Empty"
+          if gardenStatus(row)(col) == "Ready" then
+            // Insert into inventory (DB)
+            val (nutri, cal) = cropNutrition(crop)
+            FoodDAO.insert(FoodItem(0, crop, nutri, cal, player.id))
 
-          emojiLabel.text = "\uD83C\uDF31"
-          statusLabel.text = "Empty"
-          progressBar.progress = 0.0
-          harvestBtn.visible = false
-          progressBar.visible = false
-          statusLabel.visible = false
+            // Reset the plot data
+            gardenCrop(row)(col) = "Empty"
+            gardenStatus(row)(col) = "Empty"
+
+            // Reset the UI for this plot
+            emojiLabels(row)(col).text = ""
+            statusTexts(row)(col).text = "Empty"
+            statusTexts(row)(col).visible = false
+            progressBars(row)(col).progress = 0.0
+            progressBars(row)(col).visible = false
+            harvestButtons(row)(col).visible = false
+
+            emojiLabel.text = "\uD83C\uDF31"
+            statusLabel.text = "Empty"
+            statusLabel.visible = false
+            progressBar.progress = 0.0
+            progressBar.visible = false
+            harvestBtn.visible = false
+
+            // Popup alert for harvest success
+            val alert = new Alert(AlertType.Information) {
+              title = "Harvest Complete"
+              headerText = s"You harvested $crop!"
+              contentText = s"$crop added to inventory."
+            }
+
+            val stylesheet = getClass.getResource("/css/global.css").toExternalForm
+            alert.dialogPane().getStylesheets.add(stylesheet)
+            alert.getDialogPane.getStyleClass.add("dialog-pane")
+
+            alert.showAndWait()
+        }
 
         // Clickable plot area (tile)
         val stackPane = new StackPane {
+          styleClass += "garden-plot"
           children = Seq(
             new Rectangle {
               width = 130
               height = 130
               arcWidth = 15
               arcHeight = 15
-              fill = Color.LightGreen
-              stroke = Color.ForestGreen
+              fill = Color.Transparent
+              stroke = Color.Transparent
             },
             emojiLabel
           )
@@ -127,7 +153,7 @@ object GardenController:
           onMouseClicked = _ =>
             // Reset all plots
             for r <- 0 until rows; c <- 0 until cols do
-              stackPanes(r)(c).style = ""
+              stackPanes(r)(c).styleClass.remove("garden-plot-selected")
               progressBars(r)(c).visible = false
               statusTexts(r)(c).visible = false
 
@@ -138,11 +164,13 @@ object GardenController:
             selectedRow = row
             selectedCol = col
             selectedStackPane = Some(this)
-            this.style = "-fx-border-color: gold; -fx-border-width: 4; -fx-border-radius: 10;"
+            this.styleClass += "garden-plot-selected"
             progressBars(row)(col).visible = true
             statusTexts(row)(col).visible = true
             if gardenStatus(row)(col) == "Ready" then
               harvestButtons(row)(col).visible = true
+
+            plantButton.visible = true
         }
 
         // Store the tile to reset later
@@ -160,16 +188,14 @@ object GardenController:
 
   // Planting logic
   def buildControlPanel(stage: Stage, player: Player): VBox =
-    val inventoryLabel = new Label("Harvest to save food item") { // will change naming later
-      style = "-fx-text-fill: #444;"
-      // Implement better css later
+    val inventoryLabel = new Label {
+      styleClass += "inventory-label"
     }
 
-    // Button to meal builder page
-    val mealBuilderButton = new Button("Go to Meal Builder") {
-      style = "-fx-background-color: #3F51B5; -fx-text-fill: white;"
+    // Link to meal builder page
+    val mealBuilderButton = new Button("Meal Builder") {
+      styleClass += "meal-builder-button"
       onAction = _ =>
-        // Load inventory again and pass to MealBuilder
         FoodDAO.getByPlayerId(player.id).foreach { items =>
           Platform.runLater {
             stage.scene().setRoot(MealBuilder.build(player, items, stage))
@@ -177,69 +203,86 @@ object GardenController:
         }
     }
 
-    // Dropdown to let user choose what crop to plant
-    // Implement css later
-    val cropTypes = new ChoiceBox[String] {
-      items = ObservableBuffer("Carrot", "Tomato", "Lettuce")
-      value = "Carrot"
+    // Back to home page button
+    val backButton = new Button("Back to Home") {
+      styleClass += "game-button"
+      onAction = _ => stage.scene().setRoot(Home.build(player, stage))
     }
 
-    // Plant the selected crop in the selected plot
-    // Implement btn css later
-    val plantButton = new Button("Plant Crop") {
+    // Crop selection UI
+    plantButton = new Button("Plant Crop") {
+      styleClass += "plant-button"
+      visible = false
       onAction = _ =>
-        val crop = cropTypes.value.value
-        val row = selectedRow
-        val col = selectedCol
+        val cropOptions = List("Carrot", "Tomato", "Lettuce")
 
-        // Only allow planting if the plot is empty
-        if gardenCrop(row)(col) == "Empty" then
-          gardenCrop(row)(col) = crop
-          gardenStatus(row)(col) = "Growing"
-          emojiLabels(row)(col).text = "\uD83C\uDF31" // Refine later
-          statusTexts(row)(col).text = "Growing..."
-          progressBars(row)(col).progress = 0.0
-          progressBars(row)(col).visible = true
-          statusTexts(row)(col).visible = true
-          harvestButtons(row)(col).visible = false
+        // Show crop selection dialog
+        val dialog = new scalafx.scene.control.ChoiceDialog(defaultChoice = "Carrot", choices = cropOptions) {
+          title = "Select Crop"
+          headerText = "Choose a crop to plant"
+          contentText = "Crop:"
+        }
 
-          // Background thread to simulate growth
-          Future {
-            for i <- 1 to 100 do
-              Thread.sleep(30)
-              val progress = i / 100.0
+        val stylesheet = getClass.getResource("/css/global.css").toExternalForm
+        dialog.dialogPane().getStylesheets.add(stylesheet)
+        dialog.dialogPane().getStyleClass.add("dialog-pane")
+
+        // Handle selected crop
+        dialog.showAndWait().foreach { selectedCrop =>
+          val row = selectedRow
+          val col = selectedCol
+
+          if gardenCrop(row)(col) == "Empty" then
+            gardenCrop(row)(col) = selectedCrop
+            gardenStatus(row)(col) = "Growing"
+            emojiLabels(row)(col).text = "\uD83C\uDF31"
+            statusTexts(row)(col).text = "Growing..."
+            progressBars(row)(col).progress = 0.0
+            progressBars(row)(col).visible = true
+            statusTexts(row)(col).visible = true
+            harvestButtons(row)(col).visible = false
+
+            // Simulate growing with background thread
+            Future {
+              for i <- 1 to 100 do
+                Thread.sleep(30)
+                val progress = i / 100.0
+                Platform.runLater {
+                  progressBars(row)(col).progress = progress
+                }
+
+              // When growing finishes, show only harvest button
               Platform.runLater {
-                progressBars(row)(col).progress = progress
+                gardenStatus(row)(col) = "Ready"
+                emojiLabels(row)(col).text = cropEmoji(selectedCrop)
+                statusTexts(row)(col).visible = false // Hide status text
+                harvestButtons(row)(col).visible = true // Show only the harvest button
               }
-
-            // Crop status and harvest btn will be updated once the crop is grown
-            Platform.runLater {
-              gardenStatus(row)(col) = "Ready"
-              emojiLabels(row)(col).text = cropEmoji(crop)
-              statusTexts(row)(col).text = "Ready to Harvest"
-              harvestButtons(row)(col).visible = true
             }
-          }
-        else
-          // Alert message if the plot already has something
-          inventoryLabel.text = s"Plot already has ${gardenCrop(row)(col)}"
+          else
+            inventoryLabel.text = s"Plot already has ${gardenCrop(row)(col)}"
+        }
     }
 
-    // Control panel layout containing crop selection and inventory access
-    new VBox {
-      spacing = 12
+    // Show plant button only after plot is clicked
+    val cropControlBox = new HBox {
+      spacing = 10
       alignment = Pos.Center
-      padding = Insets(10)
+      children = Seq(plantButton)
+    }
+
+    // Locate button on same lines 
+    val navigationBox = new HBox {
+      spacing = 10
+      alignment = Pos.Center
+      children = Seq(inventoryLabel, backButton, mealBuilderButton)
+    }
+
+    // Final layout of the control panel
+    new VBox {
+      styleClass += "control-panel"
       children = Seq(
-        new HBox {
-          spacing = 10
-          alignment = Pos.Center
-          children = Seq(new Label("Crop:"), cropTypes, plantButton)
-        },
-        new HBox {
-          spacing = 10
-          alignment = Pos.Center
-          children = Seq(inventoryLabel, mealBuilderButton)
-        }
+        cropControlBox,
+        navigationBox
       )
     }
