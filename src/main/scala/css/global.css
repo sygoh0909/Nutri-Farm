@@ -119,3 +119,11 @@
 .garden-bg {
     -fx-background-image: url("/garden.jpg");
 }
+
+.title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 2, 0.5, 1, 1);
+    -fx-alignment: center;
+}
