@@ -1,0 +1,62 @@
+/* Top Bar Styles */
+.top-bar {
+    -fx-background-color: transparent;
+    -fx-padding: 15 25;
+    -fx-background-radius: 0;
+    -fx-effect: none;
+}
+
+.app-title {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 8, 0.3, 2, 2);
+}
+
+.points-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: linear-gradient(to bottom, #2e2e2e, #1c1c1c);
+    -fx-padding: 8 16;
+    -fx-background-radius: 20;
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 20;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(76,175,80,0.3), 5, 0.2, 1, 1);
+}
+
+.account-button {
+    -fx-background-color: linear-gradient(#4CAF50, #388E3C);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-padding: 8 20;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.3, 0, 1);
+}
+
+.account-button:hover {
+    -fx-background-color: linear-gradient(#66BB6A, #43A047);
+    -fx-text-fill: white;
+}
+
+.welcome-container {
+    -fx-background-color: rgba(0,0,0,0.4);
+    -fx-background-radius: 20;
+    -fx-padding: 40;
+    -fx-border-color: rgba(255,255,255,0.1);
+    -fx-border-width: 1;
+    -fx-border-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 15, 0.3, 0, 5);
+}
+
+.welcome-text {
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 5, 0.3, 1, 1);
+}
