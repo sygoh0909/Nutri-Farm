@@ -129,6 +129,9 @@ object GardenController:
             harvestButtons(row)(col).visible = false
 
             emojiLabel.text = "\uD83C\uDF31"
+            emojiLabels(row)(col).styleClass.setAll("crop-emoji", "default-emoji")
+            selectedStackPane.foreach(_.styleClass.remove("garden-plot-selected"))
+            selectedStackPane = None
             statusLabel.text = "Empty"
             statusLabel.visible = false
             progressBar.progress = 0.0
@@ -185,11 +188,9 @@ object GardenController:
                 statusTexts(row)(col).visible = true
 
               case "Ready" =>
-                // Show the harvest button
                 harvestButtons(row)(col).visible = true
 
-              case _ =>
-            // Do nothing extra for Empty
+              case _ => // Do nothing extra for Empty
 
             plantButton.visible = true
         }
