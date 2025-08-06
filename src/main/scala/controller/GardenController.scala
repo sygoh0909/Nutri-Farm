@@ -156,19 +156,25 @@ object GardenController:
               stackPanes(r)(c).styleClass.remove("garden-plot-selected")
               progressBars(r)(c).visible = false
               statusTexts(r)(c).visible = false
-
-              if gardenStatus(r)(c) != "Ready" then
-                harvestButtons(r)(c).visible = false
+              harvestButtons(r)(c).visible = false
 
             // Highlight selected
             selectedRow = row
             selectedCol = col
             selectedStackPane = Some(this)
             this.styleClass += "garden-plot-selected"
-            progressBars(row)(col).visible = true
-            statusTexts(row)(col).visible = true
-            if gardenStatus(row)(col) == "Ready" then
-              harvestButtons(row)(col).visible = true
+
+            gardenStatus(row)(col) match
+              case "Growing" =>
+                progressBars(row)(col).visible = true
+                statusTexts(row)(col).visible = true
+
+              case "Ready" =>
+                // Show the harvest button
+                harvestButtons(row)(col).visible = true
+
+              case _ =>
+            // Do nothing extra for Empty
 
             plantButton.visible = true
         }
@@ -232,7 +238,20 @@ object GardenController:
           val row = selectedRow
           val col = selectedCol
 
-          if gardenCrop(row)(col) == "Empty" then
+          if gardenStatus(row)(col) == "Ready" then
+            // Show warning and prevent replanting
+            val alert = new Alert(AlertType.Warning) {
+              title = "Cannot Plant"
+              headerText = "Plot is already ready to harvest!"
+              contentText = "Please harvest the crop before planting a new one."
+            }
+
+            alert.dialogPane().getStylesheets.add(stylesheet)
+            alert.dialogPane().getStyleClass.add("dialog-pane")
+
+            alert.showAndWait()
+
+          else if gardenCrop(row)(col) == "Empty" then
             gardenCrop(row)(col) = selectedCrop
             gardenStatus(row)(col) = "Growing"
             emojiLabels(row)(col).text = "\uD83C\uDF31"
