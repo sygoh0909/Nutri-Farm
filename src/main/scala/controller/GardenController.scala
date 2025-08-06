@@ -1,16 +1,17 @@
 package controller
 
 import db.FoodDAO
-import gui.{Home, MealBuilder}
+import gui.{Home, Inventory}
 import model.{FoodItem, Player}
 import scalafx.application.Platform
-import scalafx.collections.ObservableBuffer // For creating observable lists that auto-update the UI
+import scalafx.collections.ObservableBuffer
 import scalafx.geometry.Pos
 import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.layout.{GridPane, HBox, VBox}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Rectangle
 import scalafx.stage.Stage
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scalafx.scene.control.{Alert, Button, Label, ProgressBar}
@@ -199,12 +200,12 @@ object GardenController:
     }
 
     // Link to meal builder page
-    val mealBuilderButton = new Button("Meal Builder") {
-      styleClass += "meal-builder-button"
+    val inventoryBtn = new Button("Inventory") {
+      styleClass += "inventory-button"
       onAction = _ =>
         FoodDAO.getByPlayerId(player.id).foreach { items =>
           Platform.runLater {
-            stage.scene().setRoot(MealBuilder.build(player, items, stage))
+            stage.scene().setRoot(Inventory.build(player, items, stage))
           }
         }
     }
@@ -301,7 +302,7 @@ object GardenController:
     val navigationBox = new HBox {
       spacing = 10
       alignment = Pos.Center
-      children = Seq(inventoryLabel, backButton, mealBuilderButton)
+      children = Seq(inventoryLabel, backButton, inventoryBtn)
     }
 
     // Final layout of the control panel

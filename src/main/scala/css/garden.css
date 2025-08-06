@@ -108,7 +108,7 @@
 
 .plant-button,
 .harvest-button,
-.meal-builder-button {
+.inventory-button {
     -fx-text-fill: white;
     -fx-font-size: 16px;
     -fx-font-weight: bold;
@@ -131,10 +131,10 @@
     -fx-background-color: linear-gradient(to bottom, #fb8c00, #ef6c00);
 }
 
-.meal-builder-button {
+.inventory-button {
     -fx-background-color: linear-gradient(to bottom, #64b5f6, #1976d2);
 }
-.meal-builder-button:hover {
+.inventory-button:hover {
     -fx-background-color: linear-gradient(to bottom, #42a5f5, #1565c0);
 }
 
