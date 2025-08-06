@@ -120,6 +120,10 @@
     -fx-background-image: url("/garden.jpg");
 }
 
+.inventory-bg {
+    -fx-background-image: url("/inventory.png");
+}
+
 .title {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
