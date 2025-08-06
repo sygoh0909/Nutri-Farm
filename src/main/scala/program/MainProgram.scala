@@ -15,7 +15,8 @@ object MainProgram extends JFXApp3:
     stage = new PrimaryStage:
       title = "Nutri-Farm"
       scene = new Scene(1280, 720) {
-        stylesheets.add(getClass.getResource("/css/styles.css").toExternalForm)
+        stylesheets.add(getClass.getResource("/css/global.css").toExternalForm)
+        stylesheets.add(getClass.getResource("/css/home.css").toExternalForm)
       }
 
     stage.scene().setRoot(Landing.build(stage)) // Change current screen to the landing page screen
