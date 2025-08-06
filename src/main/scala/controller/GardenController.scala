@@ -139,7 +139,7 @@ object GardenController:
             val alert = new Alert(AlertType.Information) {
               title = "Harvest Complete"
               headerText = s"You harvested $crop!"
-              contentText = s"$crop added to inventory.\n+${points} points earned!"
+              contentText = s"$crop added to inventory.\n+$points points earned!"
             }
 
             val stylesheet = getClass.getResource("/css/global.css").toExternalForm
