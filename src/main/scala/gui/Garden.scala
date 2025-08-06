@@ -26,7 +26,7 @@ object Garden:
       styleClass ++= Seq("bg-base", "garden-bg")
       children = Seq(
         new Label("Garden - Start Farming here!") {
-          styleClass.add("title") // Will set specific title style here later
+          styleClass.add("title")
         },
         gardenGrid,
         controlPanel,
