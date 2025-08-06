@@ -26,7 +26,7 @@
     -fx-effect: dropshadow(gaussian, rgba(76,175,80,0.3), 5, 0.2, 1, 1);
 }
 
-.account-button {
+.logout-button {
     -fx-background-color: linear-gradient(#4CAF50, #388E3C);
     -fx-text-fill: white;
     -fx-font-size: 14px;
@@ -40,7 +40,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.3, 0, 1);
 }
 
-.account-button:hover {
+.logout-button:hover {
     -fx-background-color: linear-gradient(#66BB6A, #43A047);
     -fx-text-fill: white;
 }

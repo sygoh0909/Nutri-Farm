@@ -25,11 +25,10 @@ object Home:
         hgrow = scalafx.scene.layout.Priority.Always // Allows the element to expand and fill extra horizontal space
         children = Seq(
           // App title/logo
-          // Will design own logo if enough time
           new Label("🌾 Nutri Farm") {
             styleClass += "app-title"
           },
-          // Points + Account Button (top-right)
+          // Points + Log Out Button (top-right)
           new HBox {
             alignment = Pos.CenterRight
             hgrow = scalafx.scene.layout.Priority.Always
@@ -38,24 +37,37 @@ object Home:
               new Label(s"⭐ ${player.points}") {
                 styleClass += "points-label"
               },
-              // Account btn which will link to either profile page or prompt user to login
-              new Button("Account") {
-                styleClass += "account-button"
+              // Log out button
+              new Button("Log Out") {
+                styleClass += "logout-button"
                 onAction = _ =>
                   if player.name.toLowerCase == "guest" then
-                    // Show alert if guest account (required login)
-                    val confirmLogin = new Alert(AlertType.Confirmation) {
+                    // Show warning about data loss (guest)
+                    val confirmLogout = new Alert(AlertType.Confirmation) {
                       initOwner(stage)
-                      title = "Login Required"
-                      headerText = "Login Required to View Account"
-                      contentText = "Would you like to login now?"
+                      title = "Log Out Confirmation"
+                      headerText = "Confirm Log out?"
+                      contentText = "You're using a guest account. Logging out will result in the loss of all game progress. Proceed?"
                     }
-                    val response = confirmLogin.showAndWait()
+
+                    val stylesheet = getClass.getResource("/css/global.css").toExternalForm
+                    confirmLogout.dialogPane().getStylesheets.add(stylesheet)
+                    confirmLogout.dialogPane().getStyleClass.add("dialog-pane")
+
+                    val response = confirmLogout.showAndWait()
                     if response.contains(ButtonType.OK) then
-                      stage.scene().setRoot(Landing.build(stage))
+                      stage.scene().setRoot(Landing.build(stage))  // Go back to login screen
                   else
-                    // Logged-in players go to Profile page
-                    stage.scene().setRoot(Profile.build(player, stage))
+                    // Confirm logout (normal logged-in players)
+                    val confirmLogout = new Alert(AlertType.Confirmation) {
+                      initOwner(stage)
+                      title = "Log Out Confirmation"
+                      headerText = "Are you sure you want to log out?"
+                      contentText = "You can log in again later with your credentials."
+                    }
+                    val response = confirmLogout.showAndWait()
+                    if response.contains(ButtonType.OK) then
+                      stage.scene().setRoot(Landing.build(stage))  // Go back to login screen
               }
             )
           }
