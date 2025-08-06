@@ -4,7 +4,6 @@ import controller.LandingController
 import scalafx.scene.control.*
 import scalafx.scene.layout.{HBox, VBox}
 import scalafx.geometry.{Insets, Pos}
-import scalafx.Includes.*
 import scalafx.stage.Stage
 
 object Landing:
@@ -21,7 +20,7 @@ object Landing:
 
       children = Seq(
         new Label("Welcome to Nutri Farm!") {
-          styleClass += "title"
+          styleClass += "welcome-title"
         },
         new HBox {
           spacing = 15
