@@ -12,73 +12,84 @@ object Home:
 
   def build(player: Player, stage: Stage): VBox =
     new VBox {
-      spacing = 30
-      padding = Insets(40)
-      alignment = Pos.Center
-      styleClass ++= Seq("bg-base", "home-bg") // Adds multiple CSS classes to the component
+      spacing = 20
+      padding = Insets(30)
+      styleClass ++= Seq("bg-base", "home-bg")
 
-      children = Seq(
-        new Label("Nutri Farm") {
-          style =
-            """-fx-font-size: 40px;
-              |-fx-font-weight: bold;
-              |-fx-text-fill: white;
-              |-fx-background-color: rgba(0, 0, 0, 0.5);
-              |-fx-padding: 10 20;
-              |-fx-background-radius: 10;""".stripMargin // Used to make multi-line strings readable and clean
-        },
+      // Top bar with main logo, points, and account btn
+      val topBar: HBox = new HBox {
+        padding = Insets(10)
+        spacing = 15
+        alignment = Pos.Center
+        styleClass += "top-bar"
+        hgrow = scalafx.scene.layout.Priority.Always // Allows the element to expand and fill extra horizontal space
+        children = Seq(
+          // App title/logo
+          // Will design own logo if enough time
+          new Label("🌾 Nutri Farm") {
+            styleClass += "app-title"
+          },
+          // Points + Account Button (top-right)
+          new HBox {
+            alignment = Pos.CenterRight
+            hgrow = scalafx.scene.layout.Priority.Always
+            spacing = 10
+            children = Seq(
+              new Label(s"⭐ ${player.points}") {
+                styleClass += "points-label"
+              },
+              // Account btn which will link to either profile page or prompt user to login
+              new Button("Account") {
+                styleClass += "account-button"
+                onAction = _ =>
+                  if player.name.toLowerCase == "guest" then
+                    // Show alert if guest account (required login)
+                    val confirmLogin = new Alert(AlertType.Confirmation) {
+                      initOwner(stage)
+                      title = "Login Required"
+                      headerText = "Login Required to View Account"
+                      contentText = "Would you like to login now?"
+                    }
+                    val response = confirmLogin.showAndWait()
+                    if response.contains(ButtonType.OK) then
+                      stage.scene().setRoot(Landing.build(stage))
+                  else
+                    // Logged-in players go to Profile page
+                    stage.scene().setRoot(Profile.build(player, stage))
+              }
+            )
+          }
+        )
+      }
 
-        new HBox {
-          alignment = Pos.Center
-          spacing = 10
-          children = Seq(
-            // Player points
-            new Button("View Points") {
-              styleClass += "game-button"
-              onAction = _ =>
-                new Alert(AlertType.Information) {
-                  initOwner(stage) // Makes the alert dialog and attach to the given window
-                  title = "Your Points"
-                  headerText = "Points Summary"
-                  contentText = s"You currently have ${player.points} points."
-                }.showAndWait()
-            }
-          )
-        },
+      // Main content
+      val centerContent: VBox = new VBox {
+        spacing = 30
+        alignment = Pos.Center
+        styleClass += "welcome-container"
+        children = Seq(
+          new VBox {
+            spacing = 10
+            alignment = Pos.Center
+            children = Seq(
+              new Label("Welcome to") {
+                styleClass += "welcome-text"
+              },
+              new Label("Nutri Farm") {
+                styleClass += "welcome-title"
+              },
+              new Label(s"${player.name}!") {
+                styleClass += "welcome-text"
+              }
+            )
+          },
+          new Button("Start Farming Now") {
+            styleClass += "game-button"
+            onAction = _ =>
+              stage.scene().setRoot(Garden.build(stage, player)) // Link to garden page
+          }
+        )
+      }
 
-        new VBox {
-          spacing = 20
-          alignment = Pos.Center
-          children = Seq(
-            new Button("Start Farming Now") {
-              styleClass += "game-button"
-              // Link to garden page to start planting/farming
-              onAction = _ =>
-              stage.scene().setRoot(Garden.build(stage, player))
-            },
-            // Player account with settings page
-            new Button("Account") {
-              styleClass += "guest-button"
-              onAction = _ =>
-                if player.name.toLowerCase == "guest" then
-                  val confirmLogin = new Alert(AlertType.Confirmation) {
-                    initOwner(stage) // Makes the alert dialog and attach to the given window
-                    title = "Login Required"
-                    headerText = "Login Required to View Account"
-                    contentText = "Would you like to login now?"
-                  }
-                  val response = confirmLogin.showAndWait()
-                  if response.contains(ButtonType.OK) then
-                    stage.scene.value.setRoot(Landing.build(stage)) // Go to login page
-                else
-                  new Alert(AlertType.Information) {
-                    initOwner(stage)
-                    title = "Account"
-                    headerText = "Will navigate to profile page"
-                  }.showAndWait()
-              // Change to Profile page if player logged in
-            }
-          )
-        }
-      )
+      children = Seq(topBar, centerContent) // Top bar first, then the content
     }
