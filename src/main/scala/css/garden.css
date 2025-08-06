@@ -42,13 +42,22 @@
     -fx-text-fill: red;
 }
 
-.lettuce-emoji {
-    -fx-text-fill: green;
+.corn-emoji {
+    -fx-text-fill: goldenrod;
+}
+
+.eggplant-emoji {
+    -fx-text-fill: purple;
+}
+
+.cucumber-emoji {
+    -fx-text-fill: #4CAF50;
 }
 
 .default-emoji {
     -fx-text-fill: #999999; /* grayish for unplanted */
 }
+
 
 .status-label {
     -fx-font-size: 14px;

@@ -44,15 +44,27 @@ object GardenController:
   private def cropEmoji(crop: String): String = crop match
     case "Carrot"  => "🥕"
     case "Tomato"  => "🍅"
-    case "Lettuce" => "\uD83C\uDF3F" // Finding a better one
+    case "Corn"     => "🌽"
+    case "Eggplant" => "🍆"
+    case "Cucumber"  => "🥒"
     case _         => "🌱"
 
   // Utility method to get nutrition info
   private def cropNutrition(crop: String): (String, Double) = crop match
-    case "Carrot"  => ("Vitamin A", 25.0)
-    case "Tomato"  => ("Vitamin C", 22.0)
-    case "Lettuce" => ("Folate", 15.0)
-    case _         => ("", 0.0)
+    case "Carrot"   => ("Vitamin A", 25.0)
+    case "Tomato"   => ("Vitamin C", 22.0)
+    case "Corn"     => ("Carbohydrate", 35.0)
+    case "Eggplant" => ("Antioxidants", 28.0)
+    case "Cucumber"   => ("Hydration", 18.0)
+    case _          => ("Unknown", 0.0)
+
+  private def cropPoints(crop: String): Int = crop match
+    case "Carrot" => 5
+    case "Tomato" => 6
+    case "Corn" => 4
+    case "Eggplant" => 6
+    case "Cucumber"   => 3
+    case _ => 0
 
   // Build garden plot grid
   def buildGrid(stage: Stage, player: Player): GridPane =
@@ -100,7 +112,9 @@ object GardenController:
           if gardenStatus(row)(col) == "Ready" then
             // Insert into inventory (DB)
             val (nutri, cal) = cropNutrition(crop)
+            val points = cropPoints(crop)
             FoodDAO.insert(FoodItem(0, crop, nutri, cal, player.id))
+            player.points += points // Add points to player
 
             // Reset the plot data
             gardenCrop(row)(col) = "Empty"
@@ -121,11 +135,11 @@ object GardenController:
             progressBar.visible = false
             harvestBtn.visible = false
 
-            // Popup alert for harvest success
+            // Popup alert for harvest success & points earned
             val alert = new Alert(AlertType.Information) {
               title = "Harvest Complete"
               headerText = s"You harvested $crop!"
-              contentText = s"$crop added to inventory."
+              contentText = s"$crop added to inventory.\n+${points} points earned!"
             }
 
             val stylesheet = getClass.getResource("/css/global.css").toExternalForm
@@ -221,7 +235,7 @@ object GardenController:
       styleClass += "plant-button"
       visible = false
       onAction = _ =>
-        val cropOptions = List("Carrot", "Tomato", "Lettuce")
+        val cropOptions = List("Carrot", "Tomato", "Corn", "Eggplant", "Cucumber")
 
         // Show crop selection dialog
         val dialog = new scalafx.scene.control.ChoiceDialog(defaultChoice = "Carrot", choices = cropOptions) {
