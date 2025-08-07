@@ -17,7 +17,7 @@ object MenuButton:
       pickOnBounds = false
 
       // Menu shown
-      val menu = new ContextMenu {
+      val menu: ContextMenu = new ContextMenu {
         items ++= List(
           new MenuItem("Home") {
             onAction = _ => stage.scene().setRoot(Home.build(player, stage))
@@ -39,7 +39,7 @@ object MenuButton:
       }
 
       // Hamburger style menu
-      val menuButton = new Button("☰") {
+      val menuButton: Button = new Button("☰") {
         styleClass += "menu-button"
         onAction = _ => menu.show(this, Side.Top, 0, 0)
       }
