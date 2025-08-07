@@ -3,7 +3,7 @@ package model
 enum CropType:
   case Vegetable, Grain, Fruit // Can be expanded in future 
 
-trait Crop:
+abstract class Crop:
   def name: String
   def emoji: String
   def nutrition: String
