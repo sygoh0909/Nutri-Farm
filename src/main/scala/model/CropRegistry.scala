@@ -40,14 +40,14 @@ case object Eggplant extends Crop {
   val recipes: Seq[String] = Seq("Eggplant Parmesan", "Eggplant Curry")
 }
 
-case object Cucumber extends Crop {
-  val name: String = "Cucumber"
-  val emoji: String = "🥒"
-  val nutrition: String = "Hydration"
-  val calories: Double = 18.0
-  val points: Int = 3
-  val cropType: CropType = CropType.Vegetable
-  val recipes: Seq[String] = Seq("Cucumber Salad", "Cucumber Sandwiches")
+case object Kiwi extends Crop {
+  val name: String = "Kiwi"
+  val emoji: String = "🥝"
+  val nutrition: String = "Vitamin C"
+  val calories: Double = 42.0
+  val points: Int = 5
+  val cropType: CropType = CropType.Fruit
+  val recipes: Seq[String] = Seq("Kiwi Smoothie", "Kiwi Tart")
 }
 
 case object Wheat extends Crop {
@@ -61,5 +61,5 @@ case object Wheat extends Crop {
 }
 
 object CropRegistry:
-  val crops: Seq[Crop] = Seq(Carrot, Tomato, Corn, Eggplant, Cucumber, Wheat)
+  val crops: Seq[Crop] = Seq(Carrot, Tomato, Corn, Eggplant, Kiwi, Wheat)
   def getByName(name: String): Option[Crop] = crops.find(_.name == name)
