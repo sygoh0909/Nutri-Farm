@@ -1,14 +1,15 @@
 .section-title {
-    -fx-font-size: 16px;
+    -fx-font-size: 17px;
     -fx-font-weight: bold;
     -fx-text-fill: #1b5e20;
-    -fx-background-color: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
+    -fx-background-color: linear-gradient(to bottom, #e8f5e9, #c5e1a5);
     -fx-padding: 10px 16px;
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
     -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
     -fx-border-color: #a5d6a7;
     -fx-border-width: 1px;
+    -fx-alignment: center;
 }
 
 .item-list {
@@ -101,4 +102,14 @@
     -fx-font-family: 'Arial';
     -fx-font-size: 16px;
     -fx-padding: 0 8px 0 0;
+}
+
+.text-field, .combo-box {
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-padding: 6px;
+    -fx-border-color: #a5d6a7;
+    -fx-border-width: 1px;
+    -fx-background-color: #ffffff;
+    -fx-font-size: 14px;
 }
