@@ -97,7 +97,7 @@ object Inventory {
           cropTypeOptions.find {
             case None => str == "All"
             case Some(value) => value.toString == str
-          }.getOrElse(None),
+          }.flatten,
         {
           case None         => "All"
           case Some(value)  => value.toString
