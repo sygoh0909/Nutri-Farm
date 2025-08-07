@@ -18,6 +18,7 @@ object MainProgram extends JFXApp3:
         stylesheets.add(getClass.getResource("/css/global.css").toExternalForm)
         stylesheets.add(getClass.getResource("/css/home.css").toExternalForm)
         stylesheets.add(getClass.getResource("/css/garden.css").toExternalForm)
+        stylesheets.add(getClass.getResource("/css/inventory.css").toExternalForm)
       }
 
     stage.scene().setRoot(Landing.build(stage)) // Change current screen to the landing page screen
