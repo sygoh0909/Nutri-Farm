@@ -189,7 +189,7 @@ object GardenController:
       styleClass += "inventory-label"
     }
 
-    // Link to meal builder page
+    // Link to inventory page
     val inventoryBtn = new Button("Inventory") {
       styleClass += "inventory-button"
       onAction = _ =>
