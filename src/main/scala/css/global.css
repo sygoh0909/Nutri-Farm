@@ -131,3 +131,38 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 2, 0.5, 1, 1);
     -fx-alignment: center;
 }
+
+.menu-button {
+    -fx-font-size: 18px;
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 8px 12px;
+    -fx-background-radius: 6px;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0.2, 0, 2);
+    -fx-transition: background-color 0.3s ease;
+}
+
+.menu-button:hover {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.context-menu {
+    -fx-background-color: black;
+    -fx-border-color: transparent;
+    -fx-background-radius: 6px;
+}
+
+.menu-item {
+    -fx-background-color: transparent;
+    -fx-padding: 10px 16px;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.menu-item:hover {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
