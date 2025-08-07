@@ -86,7 +86,7 @@ object GardenController:
           if gardenStatus(row)(col) == "Ready" then
             // Insert into inventory (DB)
             CropRegistry.getByName(crop).foreach { c =>
-              val food = FoodItem(0, c.name, c.nutrition, c.calories, player.id)
+              val food = FoodItem(0, c.name, c.nutrition, c.calories, c.cropType, player.id)
               FoodDAO.insert(food)
               player.points += c.points // Add points to player
 
