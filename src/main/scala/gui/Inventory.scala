@@ -1,23 +1,14 @@
 package gui
 
 import scalafx.geometry.{Insets, Pos}
-import scalafx.scene.control._
-import scalafx.scene.layout._
+import scalafx.scene.control.*
+import scalafx.scene.layout.*
 import scalafx.scene.text.Text
 import scalafx.stage.Stage
-import model.{FoodItem, Player}
+import model.{CropRegistry, FoodItem, Player}
 
 object Inventory {
-  // Hardcoded recipe suggestions mapped to food item names
-  private val recipeSuggestions: Map[String, Seq[String]] = Map(
-    "Carrot" -> Seq("Carrot Soup", "Carrot Cake"),
-    "Tomato" -> Seq("Tomato Pasta", "Tomato Soup"),
-    "Corn" -> Seq("Corn Tacos", "Corn Chowder"),
-    "Eggplant" -> Seq("Eggplant Parmesan", "Eggplant Curry"),
-    "Cucumber" -> Seq("Cucumber Salad", "Cucumber Sandwiches"),
-    "Wheat" -> Seq("Whole Wheat Bread", "Wheat Pancakes")
-  )
-
+  
   def build(player: Player, items: Seq[FoodItem], stage: Stage): VBox = {
     // Create toggle group for item selection (only one can be selected at a time)
     val itemToggleGroup = new ToggleGroup()
@@ -48,11 +39,13 @@ object Inventory {
           new Label("Suggested Recipes:") {
             styleClass.add("detail-title")
           },
-          new ListView[String](recipeSuggestions.getOrElse(item.name, Seq("No recipes found"))) {
+          new ListView[String](
+            CropRegistry.getByName(item.name).map(_.recipes).getOrElse(Seq("No recipes found"))
+          ) {
             styleClass.add("recipe-list")
             prefHeight = 100
-            mouseTransparent = true // Disable mouse interaction
-            focusTraversable = false // Prevent keyboard focus
+            mouseTransparent = true  // Disable mouse interaction
+            focusTraversable = false  // Prevent keyboard focus
           }
         )
       }
