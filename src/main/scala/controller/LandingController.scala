@@ -36,7 +36,6 @@ object LandingController:
     }
   }
 
-
   // Login feature (popup)
   def showLoginPopup(): Unit =
     val dialog = new Dialog[Unit]():
@@ -50,24 +49,51 @@ object LandingController:
     val emailField = new TextField() { promptText = "Email" }
     val passwordField = new PasswordField() { promptText = "Password" }
 
+    // Validation labels (initially hidden)
+    val emailError = new Label("") {
+      style = "-fx-text-fill: red; -fx-font-size: 12px"
+      visible = false
+    }
+
+    val passwordError = new Label("") {
+      style = "-fx-text-fill: red; -fx-font-size: 12px"
+      visible = false
+    }
+
     val grid = new GridPane:
       hgap = 10
-      vgap = 10
+      vgap = 6
       padding = Insets(20)
       add(new Label("Email:"), 0, 0)
       add(emailField, 1, 0)
-      add(new Label("Password:"), 0, 1)
-      add(passwordField, 1, 1)
+      add(emailError, 1, 1)
+      add(new Label("Password:"), 0, 2)
+      add(passwordField, 1, 2)
+      add(passwordError, 1, 3)
 
     dialog.dialogPane().content = grid
 
-    // Only runs if user clicks OK
     dialog.resultConverter = dialogButton =>
       if dialogButton == ButtonType.OK then
-        val email = emailField.text.value
+        val email = emailField.text.value.trim
         val password = passwordField.text.value
 
-        // Asynchronous call (to db)
+        var valid = true
+
+        if email.isEmpty then
+          emailError.text = "Email is required"
+          emailError.visible = true
+          valid = false
+        else emailError.visible = false
+
+        if password.isEmpty then
+          passwordError.text = "Password is required"
+          passwordError.visible = true
+          valid = false
+        else passwordError.visible = false
+
+        if valid then () else null
+
         PlayerDAO.findByEmail(email).onComplete { // on Complete is Future operations
           case Success(Some(player)) =>
             if BCrypt.checkpw(password, player.passwordHash) then // Check/compare password hash
@@ -78,17 +104,19 @@ object LandingController:
               }
             else
               Platform.runLater {
-                // Show alert popup with error message if unsuccessful
+                // Show alert message if unsuccessful
                 new Alert(Alert.AlertType.Error) {
                   contentText = "Incorrect password."
                 }.showAndWait()
               }
+
           case Success(None) =>
             Platform.runLater {
               new Alert(Alert.AlertType.Warning) {
                 contentText = "Email not found."
               }.showAndWait()
             }
+
           case Failure(e) =>
             Platform.runLater {
               new Alert(Alert.AlertType.Error) {
@@ -113,24 +141,62 @@ object LandingController:
     val emailField = new TextField() { promptText = "Email" }
     val passwordField = new PasswordField() { promptText = "Password" }
 
+    val nameError = new Label("") {
+      style = "-fx-text-fill: red; -fx-font-size: 12px"
+      visible = false
+    }
+    val emailError = new Label("") {
+      style = "-fx-text-fill: red; -fx-font-size: 12px"
+      visible = false
+    }
+    val passwordError = new Label("") {
+      style = "-fx-text-fill: red; -fx-font-size: 12px"
+      visible = false
+    }
+
     val grid = new GridPane:
       hgap = 10
-      vgap = 10
+      vgap = 6
       padding = Insets(20)
       add(new Label("Name:"), 0, 0)
       add(nameField, 1, 0)
-      add(new Label("Email:"), 0, 1)
-      add(emailField, 1, 1)
-      add(new Label("Password:"), 0, 2)
-      add(passwordField, 1, 2)
+      add(nameError, 1, 1)
+      add(new Label("Email:"), 0, 2)
+      add(emailField, 1, 2)
+      add(emailError, 1, 3)
+      add(new Label("Password:"), 0, 4)
+      add(passwordField, 1, 4)
+      add(passwordError, 1, 5)
 
     dialog.dialogPane().content = grid
 
     dialog.resultConverter = dialogButton =>
       if dialogButton == ButtonType.OK then
-        val name = nameField.text.value
-        val email = emailField.text.value
+        val name = nameField.text.value.trim
+        val email = emailField.text.value.trim
         val password = passwordField.text.value
+
+        var valid = true
+
+        if name.isEmpty then
+          nameError.text = "Name is required"
+          nameError.visible = true
+          valid = false
+        else nameError.visible = false
+
+        if email.isEmpty then
+          emailError.text = "Email is required"
+          emailError.visible = true
+          valid = false
+        else emailError.visible = false
+
+        if password.length < 6 then
+          passwordError.text = "Password must be at least 6 characters"
+          passwordError.visible = true
+          valid = false
+        else passwordError.visible = false
+
+        if valid then () else null
 
         PlayerDAO.findByEmail(email).onComplete {
           case Success(Some(_)) =>
@@ -139,19 +205,21 @@ object LandingController:
                 contentText = "Email already registered."
               }.showAndWait()
             }
+
           case Success(None) =>
             val hashed = BCrypt.hashpw(password, BCrypt.gensalt()) // Encrypt password for safety purposes
             val player = Player(0, name, email, hashed, 0)
+            // Successful register account, and added to db
             PlayerDAO.insert(player).onComplete {
-              // Successful register account, and added to db
               case Success(_) =>
                 loggedInPlayer = Some(player)
                 Platform.runLater {
                   new Alert(Alert.AlertType.Information) {
-                    contentText = "Registration successful! You can now log in."
+                    contentText = "Registration successful!"
                   }.showAndWait()
                   appStage.scene().setRoot(Home.build(player, appStage))
                 }
+
               case Failure(e) =>
                 Platform.runLater {
                   new Alert(Alert.AlertType.Error) {
@@ -159,6 +227,7 @@ object LandingController:
                   }.showAndWait()
                 }
             }
+
           case Failure(e) =>
             Platform.runLater {
               new Alert(Alert.AlertType.Error) {
