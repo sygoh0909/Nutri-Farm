@@ -2,7 +2,7 @@ package controller
 
 import db.FoodDAO
 import gui.{Home, Inventory}
-import model.{FoodItem, Player}
+import model.{CropRegistry, FoodItem, Player}
 import scalafx.application.Platform
 import scalafx.collections.ObservableBuffer
 import scalafx.geometry.Pos
@@ -39,35 +39,6 @@ object GardenController:
   private var selectedRow = 0
   private var selectedCol = 0
   private var selectedStackPane: Option[StackPane] = None
-
-  // Show different crops as emoji (for now)
-  private def cropEmoji(crop: String): String = crop match
-    case "Carrot"  => "🥕"
-    case "Tomato"  => "🍅"
-    case "Corn"     => "🌽"
-    case "Eggplant" => "🍆"
-    case "Cucumber"  => "🥒"
-    case "Wheat"     => "🌾"
-    case _         => "🌱"
-
-  // Utility method to get nutrition info
-  private def cropNutrition(crop: String): (String, Double) = crop match
-    case "Carrot"   => ("Vitamin A", 25.0)
-    case "Tomato"   => ("Vitamin C", 22.0)
-    case "Corn"     => ("Carbohydrate", 35.0)
-    case "Eggplant" => ("Antioxidants", 28.0)
-    case "Cucumber"   => ("Hydration", 18.0)
-    case "Wheat"     => ("Fiber", 40.0)
-    case _          => ("Unknown", 0.0)
-
-  private def cropPoints(crop: String): Int = crop match
-    case "Carrot" => 5
-    case "Tomato" => 6
-    case "Corn" => 4
-    case "Eggplant" => 6
-    case "Cucumber"   => 3
-    case "Wheat"     => 6
-    case _ => 0
 
   // Build garden plot grid
   def buildGrid(stage: Stage, player: Player): GridPane =
@@ -114,45 +85,46 @@ object GardenController:
 
           if gardenStatus(row)(col) == "Ready" then
             // Insert into inventory (DB)
-            val (nutri, cal) = cropNutrition(crop)
-            val points = cropPoints(crop)
-            FoodDAO.insert(FoodItem(0, crop, nutri, cal, player.id))
-            player.points += points // Add points to player
+            CropRegistry.getByName(crop).foreach { c =>
+              val food = FoodItem(0, c.name, c.nutrition, c.calories, player.id)
+              FoodDAO.insert(food)
+              player.points += c.points // Add points to player
 
-            // Reset the plot data
-            gardenCrop(row)(col) = "Empty"
-            gardenStatus(row)(col) = "Empty"
+              // Reset the plot data
+              gardenCrop(row)(col) = "Empty"
+              gardenStatus(row)(col) = "Empty"
 
-            // Reset the UI for this plot
-            emojiLabels(row)(col).text = ""
-            statusTexts(row)(col).text = "Empty"
-            statusTexts(row)(col).visible = false
-            progressBars(row)(col).progress = 0.0
-            progressBars(row)(col).visible = false
-            harvestButtons(row)(col).visible = false
+              // Reset the UI for this plot
+              emojiLabels(row)(col).text = ""
+              statusTexts(row)(col).text = "Empty"
+              statusTexts(row)(col).visible = false
+              progressBars(row)(col).progress = 0.0
+              progressBars(row)(col).visible = false
+              harvestButtons(row)(col).visible = false
 
-            emojiLabel.text = "\uD83C\uDF31"
-            emojiLabels(row)(col).styleClass.setAll("crop-emoji", "default-emoji")
-            selectedStackPane.foreach(_.styleClass.remove("garden-plot-selected"))
-            selectedStackPane = None
-            statusLabel.text = "Empty"
-            statusLabel.visible = false
-            progressBar.progress = 0.0
-            progressBar.visible = false
-            harvestBtn.visible = false
+              emojiLabel.text = "\uD83C\uDF31"
+              emojiLabels(row)(col).styleClass.setAll("crop-emoji", "default-emoji")
+              selectedStackPane.foreach(_.styleClass.remove("garden-plot-selected"))
+              selectedStackPane = None
+              statusLabel.text = "Empty"
+              statusLabel.visible = false
+              progressBar.progress = 0.0
+              progressBar.visible = false
+              harvestBtn.visible = false
 
-            // Popup alert for harvest success & points earned
-            val alert = new Alert(AlertType.Information) {
-              title = "Harvest Complete"
-              headerText = s"You harvested $crop!"
-              contentText = s"$crop added to inventory.\n+$points points earned!"
+              // Popup alert for harvest success & points earned
+              val alert = new Alert(AlertType.Information) {
+                title = "Harvest Complete"
+                headerText = s"You harvested ${c.name}!"
+                contentText = s"${c.name} added to inventory.\n+${c.points} points earned!"
+              }
+
+              val stylesheet = getClass.getResource("/css/global.css").toExternalForm
+              alert.dialogPane().getStylesheets.add(stylesheet)
+              alert.getDialogPane.getStyleClass.add("dialog-pane")
+
+              alert.showAndWait()
             }
-
-            val stylesheet = getClass.getResource("/css/global.css").toExternalForm
-            alert.dialogPane().getStylesheets.add(stylesheet)
-            alert.getDialogPane.getStyleClass.add("dialog-pane")
-
-            alert.showAndWait()
         }
 
         // Clickable plot area (tile)
@@ -294,7 +266,10 @@ object GardenController:
                 gardenStatus(row)(col) = "Ready"
 
                 val emojiLabel = emojiLabels(row)(col)
-                emojiLabel.text = cropEmoji(selectedCrop)
+                CropRegistry.getByName(selectedCrop) match {
+                  case Some(crop) => emojiLabel.text = crop.emoji
+                  case None       => emojiLabel.text = "🌱"
+                }
 
                 // Clear old crop-specific classes (if any) and add new one
                 emojiLabel.styleClass --= Seq("carrot-emoji", "tomato-emoji", "corn-emoji", "eggplant-emoji", "cucumber-emoji", "wheat-emoji", "default-emoji")
