@@ -9,4 +9,5 @@ trait Crop:
   def nutrition: String
   def calories: Double
   def points: Int
+  def cropType: CropType
   def recipes: Seq[String]
