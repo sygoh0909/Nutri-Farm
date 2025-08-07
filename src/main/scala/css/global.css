@@ -121,7 +121,7 @@
 }
 
 .inventory-bg {
-    -fx-background-image: url("/inventory.png");
+    -fx-background-image: url("/landing.jpg");
 }
 
 .title {
