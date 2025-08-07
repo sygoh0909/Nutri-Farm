@@ -11,7 +11,7 @@ import utils.FilterUtils.*
 
 object Inventory {
 
-  def build(player: Player, items: Seq[FoodItem], stage: Stage): VBox = {
+  def build(player: Player, items: Seq[FoodItem], stage: Stage): StackPane = {
     val itemToggleGroup = new ToggleGroup()
 
     // List of food items
@@ -43,9 +43,15 @@ object Inventory {
           styleClass.add("expandable-content")
           padding = Insets(8, 0, 0, 16)
           children = Seq(
-            new Text(s"Nutrition: ${item.nutrition}") { styleClass.add("detail-text") },
-            new Text(s"Calories: ${item.calories}") { styleClass.add("detail-text") },
-            new Label("Suggested Recipes:") { styleClass.add("detail-title") },
+            new Text(s"Nutrition: ${item.nutrition}") {
+              styleClass.add("detail-text")
+            },
+            new Text(s"Calories: ${item.calories}") {
+              styleClass.add("detail-text")
+            },
+            new Label("Suggested Recipes:") {
+              styleClass.add("detail-title")
+            },
             new ListView[String](
               CropRegistry.getByName(item.name).map(_.recipes).getOrElse(Seq("No recipes found"))
             ) {
@@ -67,7 +73,9 @@ object Inventory {
               onAction = _ => {
                 if (selected.value) {
                   infoBox.children = Seq(
-                    new Text(item.name) { styleClass.add("detail-title") },
+                    new Text(item.name) {
+                      styleClass.add("detail-title")
+                    },
                     expandableContent
                   )
                   infoBox.visible = true
@@ -99,8 +107,8 @@ object Inventory {
             case Some(value) => value.toString == str
           }.flatten,
         {
-          case None         => "All"
-          case Some(value)  => value.toString
+          case None => "All"
+          case Some(value) => value.toString
         }
       )
     }
@@ -153,7 +161,7 @@ object Inventory {
     updateItemList(items) // Initial list (none filter)
 
     // Final layout containing all inventory components
-    new VBox(20) {
+    val mainLayout = new VBox(20) {
       padding = Insets(20)
       alignment = Pos.TopCenter
       styleClass ++= Seq("bg-base", "inventory-bg")
@@ -189,11 +197,16 @@ object Inventory {
             }
           )
         },
-        // Creates an invisible empty area that pushes the Back button to the bottom of the screen
         new Region {
           VBox.setVgrow(this, Priority.Always)
         },
         backBtn
+      )
+    }
+    new StackPane {
+      children = Seq(
+        mainLayout,
+        components.MenuButton.build(stage, player)
       )
     }
   }
