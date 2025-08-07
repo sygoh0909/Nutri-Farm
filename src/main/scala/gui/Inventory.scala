@@ -10,11 +10,12 @@ import model.{FoodItem, Player}
 object Inventory {
   // Hardcoded recipe suggestions mapped to food item names
   private val recipeSuggestions: Map[String, Seq[String]] = Map(
-    "Carrot" -> Seq("Carrot Soup", "Carrot Salad"),
+    "Carrot" -> Seq("Carrot Soup", "Carrot Cake"),
     "Tomato" -> Seq("Tomato Pasta", "Tomato Soup"),
     "Corn" -> Seq("Corn Tacos", "Corn Chowder"),
-    "Eggplant" -> Seq("Eggplant Curry", "Grilled Eggplant"),
-    "Cucumber" -> Seq("Cucumber Salad", "Cucumber Water")
+    "Eggplant" -> Seq("Eggplant Parmesan", "Eggplant Curry"),
+    "Cucumber" -> Seq("Cucumber Salad", "Cucumber Sandwiches"),
+    "Wheat" -> Seq("Whole Wheat Bread", "Wheat Pancakes")
   )
 
   def build(player: Player, items: Seq[FoodItem], stage: Stage): VBox = {

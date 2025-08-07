@@ -47,6 +47,7 @@ object GardenController:
     case "Corn"     => "🌽"
     case "Eggplant" => "🍆"
     case "Cucumber"  => "🥒"
+    case "Wheat"     => "🌾"
     case _         => "🌱"
 
   // Utility method to get nutrition info
@@ -56,6 +57,7 @@ object GardenController:
     case "Corn"     => ("Carbohydrate", 35.0)
     case "Eggplant" => ("Antioxidants", 28.0)
     case "Cucumber"   => ("Hydration", 18.0)
+    case "Wheat"     => ("Fiber", 40.0)
     case _          => ("Unknown", 0.0)
 
   private def cropPoints(crop: String): Int = crop match
@@ -64,6 +66,7 @@ object GardenController:
     case "Corn" => 4
     case "Eggplant" => 6
     case "Cucumber"   => 3
+    case "Wheat"     => 6
     case _ => 0
 
   // Build garden plot grid
@@ -236,7 +239,7 @@ object GardenController:
       styleClass += "plant-button"
       visible = false
       onAction = _ =>
-        val cropOptions = List("Carrot", "Tomato", "Corn", "Eggplant", "Cucumber")
+        val cropOptions = List("Carrot", "Tomato", "Corn", "Eggplant", "Cucumber", "Wheat")
 
         // Show crop selection dialog
         val dialog = new scalafx.scene.control.ChoiceDialog(defaultChoice = "Carrot", choices = cropOptions) {
@@ -294,7 +297,7 @@ object GardenController:
                 emojiLabel.text = cropEmoji(selectedCrop)
 
                 // Clear old crop-specific classes (if any) and add new one
-                emojiLabel.styleClass --= Seq("carrot-emoji", "tomato-emoji", "lettuce-emoji", "default-emoji")
+                emojiLabel.styleClass --= Seq("carrot-emoji", "tomato-emoji", "corn-emoji", "eggplant-emoji", "cucumber-emoji", "wheat-emoji", "default-emoji")
                 emojiLabel.styleClass += (selectedCrop.toLowerCase + "-emoji")
 
                 statusTexts(row)(col).visible = false

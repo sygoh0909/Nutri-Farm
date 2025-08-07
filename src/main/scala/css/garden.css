@@ -54,6 +54,10 @@
     -fx-text-fill: #4CAF50;
 }
 
+.wheat-emoji {
+    -fx-text-fill: #DAA520;
+}
+
 .default-emoji {
     -fx-text-fill: #999999; /* grayish for unplanted */
 }
