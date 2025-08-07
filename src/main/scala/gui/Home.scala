@@ -7,6 +7,7 @@ import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.layout.{HBox, VBox}
 import scalafx.stage.Stage
 import scalafx.Includes.*
+import components.MenuButton
 
 object Home:
 
@@ -92,7 +93,7 @@ object Home:
               },
               new Label(s"${player.name}!") {
                 styleClass += "welcome-text"
-              }
+              },
             )
           },
           new Button("Start Farming Now") {
@@ -103,5 +104,5 @@ object Home:
         )
       }
 
-      children = Seq(topBar, centerContent) // Top bar first, then the content
+      children = Seq(topBar, centerContent, MenuButton.build(stage, player)) // Top bar first, then the content
     }
