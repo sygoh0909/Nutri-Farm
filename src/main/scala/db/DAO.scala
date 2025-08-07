@@ -6,7 +6,6 @@ import scala.concurrent.Future
 
 // Data access object (DAO) to map custom functions for different db
 object PlayerDAO: // Provides functions to interact with player table
-  // Modified by ChatGPT
   def insert(player: Player): Future[Int] = // Insert new player to db player table
     DBConfig.db.run(PlayerTable.players += player)
 
