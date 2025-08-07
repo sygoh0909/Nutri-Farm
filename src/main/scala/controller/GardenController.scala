@@ -211,7 +211,7 @@ object GardenController:
       styleClass += "plant-button"
       visible = false
       onAction = _ =>
-        val cropOptions = List("Carrot", "Tomato", "Corn", "Eggplant", "Cucumber", "Wheat")
+        val cropOptions: List[String] = CropRegistry.crops.map(_.name).toList
 
         // Show crop selection dialog
         val dialog = new scalafx.scene.control.ChoiceDialog(defaultChoice = "Carrot", choices = cropOptions) {
