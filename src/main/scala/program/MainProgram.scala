@@ -5,9 +5,7 @@ import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.Scene
 
-// Global scalaFX reference: https://javadoc.io/doc/org.scalafx/scalafx_3/latest/index.html
-// Global db connection reference: https://scala-slick.org/doc
-// These documentation was used as a general reference throughout the entire program
+// Documentation references used throughout the project are stated in the read me file
 
 // Main method
 object MainProgram extends JFXApp3:
