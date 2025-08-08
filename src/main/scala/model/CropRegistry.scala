@@ -1,5 +1,9 @@
 package model
 
+object CropRegistry:
+  val crops: Seq[Crop] = Seq(Carrot, Tomato, Corn, Eggplant, Kiwi, Wheat)
+  def getByName(name: String): Option[Crop] = crops.find(_.name == name)
+
 case object Carrot extends Crop {
   val name: String = "Carrot"
   val emoji: String = "🥕"
@@ -59,7 +63,3 @@ case object Wheat extends Crop {
   val cropType: CropType = CropType.Grain
   val recipes: Seq[String] = Seq("Whole Wheat Bread", "Wheat Pancakes")
 }
-
-object CropRegistry:
-  val crops: Seq[Crop] = Seq(Carrot, Tomato, Corn, Eggplant, Kiwi, Wheat)
-  def getByName(name: String): Option[Crop] = crops.find(_.name == name)
