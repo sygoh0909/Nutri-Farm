@@ -211,13 +211,15 @@ object LandingController:
             val player = Player(0, name, email, hashed, 0)
             // Successful register account, and added to db
             PlayerDAO.insert(player).onComplete {
-              case Success(_) =>
-                loggedInPlayer = Some(player)
+              case Success(newId) =>
+                val playerWithId = player.copy(id = newId) // now has the actual DB ID
+                loggedInPlayer = Some(playerWithId)
+
                 Platform.runLater {
                   new Alert(Alert.AlertType.Information) {
                     contentText = "Registration successful!"
                   }.showAndWait()
-                  appStage.scene().setRoot(Home.build(player, appStage))
+                  appStage.scene().setRoot(Home.build(playerWithId, appStage))
                 }
 
               case Failure(e) =>
