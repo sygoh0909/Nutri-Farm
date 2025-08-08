@@ -48,56 +48,78 @@ Nutri-Farm is a GUI-based farming simulation game built with modern JVM technolo
 sbt run
 ```
 
+## Project Structure
+
+nutri-farm/
+├── .github/ # GitHub configuration files
+├── src/
+│ ├── main/
+│ │ ├── resources/ # Application assets
+│ │ │ ├── garden.jpg # Garden background
+│ │ │ ├── home.jpg # Home screen background
+│ │ │ └── landing.jpg # Landing page background
+│ │ ├── scala/
+│ │ │ ├── components/ # Reusable UI components
+│ │ │ │ └── MenuButton.scala
+│ │ │ ├── controller/ # Application controllers
+│ │ │ │ ├── GardenController.scala
+│ │ │ │ └── LandingController.scala
+│ │ │ ├── css/ # Stylesheets
+│ │ │ │ ├── garden.css
+│ │ │ │ ├── global.css
+│ │ │ │ ├── home.css
+│ │ │ │ └── inventory.css
+│ │ │ ├── db/ # Database layer
+│ │ │ │ ├── DAO.scala
+│ │ │ │ ├── DBConfig.scala
+│ │ │ │ ├── FoodTable.scala
+│ │ │ │ └── PlayerTable.scala
+│ │ │ ├── gui/ # View components
+│ │ │ │ ├── Garden.scala
+│ │ │ │ ├── Home.scala
+│ │ │ │ ├── Inventory.scala
+│ │ │ │ └── Landing.scala
+│ │ │ ├── logging/ # Logging utilities
+│ │ │ │ └── GameLogger.scala
+│ │ │ ├── model/ # Data models
+│ │ │ │ ├── Crop.scala
+│ │ │ │ ├── CropRegistry.scala
+│ │ │ │ ├── FoodItem.scala
+│ │ │ │ └── Player.scala
+│ │ │ ├── program/ # Main entry point
+│ │ │ │ └── MainProgram.scala
+│ │ │ └── utils/ # Utility functions
+│ │ │ └── FilterUtils.scala
+│ │ └── logging/ # Application logs
+│ │ ├── gardencontroller5-2025-08-08.log
+│ │ └── gardencontroller5-2025-08-09.log
+│ └── test/ # Unit tests
+└── project/ # SBT configuration files
+
 #### From IDE Project Structure:
 1. Navigate to: src/main/scala/program/MainProgram.scala
 2. Click the run button (▶️)
 
-#### Project Structure 
+## Technical References
 
-nutri-farm/
-├── .github/                  # GitHub configuration files
-├── src/
-│   ├── main/
-│   │   ├── resources/        # Application assets
-│   │   │   ├── garden.jpg    # Garden background
-│   │   │   ├── home.jpg      # Home screen background
-│   │   │   └── landing.jpg   # Landing page background
-│   │   ├── scala/
-│   │   │   ├── components/   # Reusable UI components
-│   │   │   │   └── MenuButton.scala
-│   │   │   ├── controller/   # Application controllers
-│   │   │   │   ├── GardenController.scala
-│   │   │   │   └── LandingController.scala
-│   │   │   ├── css/          # Stylesheets
-│   │   │   │   ├── garden.css
-│   │   │   │   ├── global.css
-│   │   │   │   ├── home.css
-│   │   │   │   └── inventory.css
-│   │   │   ├── db/           # Database layer
-│   │   │   │   ├── DAO.scala
-│   │   │   │   ├── DBConfig.scala
-│   │   │   │   ├── FoodTable.scala
-│   │   │   │   └── PlayerTable.scala
-│   │   │   ├── gui/          # View components
-│   │   │   │   ├── Garden.scala
-│   │   │   │   ├── Home.scala
-│   │   │   │   ├── Inventory.scala
-│   │   │   │   └── Landing.scala
-│   │   │   ├── logging/      # Logging utilities
-│   │   │   │   └── GameLogger.scala
-│   │   │   ├── model/        # Data models
-│   │   │   │   ├── Crop.scala
-│   │   │   │   ├── CropRegistry.scala
-│   │   │   │   ├── FoodItem.scala
-│   │   │   │   └── Player.scala
-│   │   │   ├── program/      # Main entry point
-│   │   │   │   └── MainProgram.scala
-│   │   │   └── utils/        # Utility functions
-│   │   │       └── FilterUtils.scala
-│   │   └── logging/          # Application logs
-│   │       ├── gardencontroller5-2025-08-08.log
-│   │       └── gardencontroller5-2025-08-09.log
-│   └── test/                 # Unit tests
-└── project/                  # SBT configuration files
+### Core Technologies
 
+| Technology | Documentation |
+|------------|--------------|
+| [**Scala 3**](https://scala-lang.org) | [Official Documentation](https://docs.scala-lang.org/scala3/) |
+| [**ScalaFX**](https://scalafx.org) | [API Documentation (v21)](https://scalafx.org/api/21.0.0-R32/) |
+| [**Java 21**](https://openjdk.org/projects/jdk/21/) | [JDK API](https://docs.oracle.com/en/java/javase/21/docs/api/) |
+| [**jBCrypt**](https://github.com/jeremyh/jBCrypt) | [GitHub Repository](https://github.com/jeremyh/jBCrypt) |
+| [**Slick**](https://scala-slick.org) | [Database Library Docs](https://scala-slick.org/doc/3.5.0-M1/) |
+
+### Additional References
+
+#### Scala Concepts
+- [Futures and Promises](https://docs.scala-lang.org/overviews/core/futures.html)
+- [Generic Classes](https://docs.scala-lang.org/tour/generic-classes.html)
+
+#### Java/ScalaFX APIs
+- [ScalaFX Javadoc (v24)](https://javadoc.io/doc/org.scalafx/scalafx_3/latest/index.html)
+- [ScalaFX Legacy API (v8)](https://scalafx.org/api/8.0/index.html#package)
+- [Java SE 17 API](https://docs.oracle.com/en/java/javase/17/docs/api/index.html) (Compatibility Reference)
 
