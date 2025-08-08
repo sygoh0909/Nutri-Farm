@@ -31,7 +31,7 @@ Nutri-Farm is a GUI-based farming simulation game built with modern JVM technolo
 - Intuitive menu system
 - Scene transitions
 
-## Prerequisites
+## 🛠️ Prerequisites
 
 - **Java 21 JDK** ([Download](https://adoptium.net/))
 - **sbt** ([Installation Guide](https://www.scala-sbt.org/1.x/docs/Setup.html))
@@ -39,7 +39,7 @@ Nutri-Farm is a GUI-based farming simulation game built with modern JVM technolo
   - IntelliJ IDEA with Scala plugin
   - VS Code with Metals extension
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Running the Application
 
