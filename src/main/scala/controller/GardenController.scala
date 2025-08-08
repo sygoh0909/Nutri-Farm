@@ -54,6 +54,18 @@ object GardenController:
           mouseTransparent = true
         }
 
+        // Checking for status (ensure player leave the garden page and come back still have the same status)
+        if gardenStatus(row)(col) == "Ready" then
+          CropRegistry.getByName(gardenCrop(row)(col)) match {
+            case Some(crop) => emojiLabel.text = crop.emoji
+            case None => emojiLabel.text = "🌱"
+          }
+          emojiLabel.styleClass.setAll(
+            "crop-emoji", // keep size from original
+            "emoji-label",
+            gardenCrop(row)(col).toLowerCase + "-emoji"
+          )
+
         // Crop status
         val statusLabel = new Label("Empty") {
           styleClass += "status-label"
