@@ -46,6 +46,58 @@ Nutri-Farm is a GUI-based farming simulation game built with modern JVM technolo
 #### From Command Line:
 ```bash
 sbt run
+```
 
-#### From Project Structure:
-Navigate to: src/main/scala/program/MainProgram.scala
+#### From IDE Project Structure:
+1. Navigate to: src/main/scala/program/MainProgram.scala
+2. Click the run button (▶️)
+
+#### Project Structure 
+
+nutri-farm/
+├── .github/                  # GitHub configuration files
+├── src/
+│   ├── main/
+│   │   ├── resources/        # Application assets
+│   │   │   ├── garden.jpg    # Garden background
+│   │   │   ├── home.jpg      # Home screen background
+│   │   │   └── landing.jpg   # Landing page background
+│   │   ├── scala/
+│   │   │   ├── components/   # Reusable UI components
+│   │   │   │   └── MenuButton.scala
+│   │   │   ├── controller/   # Application controllers
+│   │   │   │   ├── GardenController.scala
+│   │   │   │   └── LandingController.scala
+│   │   │   ├── css/          # Stylesheets
+│   │   │   │   ├── garden.css
+│   │   │   │   ├── global.css
+│   │   │   │   ├── home.css
+│   │   │   │   └── inventory.css
+│   │   │   ├── db/           # Database layer
+│   │   │   │   ├── DAO.scala
+│   │   │   │   ├── DBConfig.scala
+│   │   │   │   ├── FoodTable.scala
+│   │   │   │   └── PlayerTable.scala
+│   │   │   ├── gui/          # View components
+│   │   │   │   ├── Garden.scala
+│   │   │   │   ├── Home.scala
+│   │   │   │   ├── Inventory.scala
+│   │   │   │   └── Landing.scala
+│   │   │   ├── logging/      # Logging utilities
+│   │   │   │   └── GameLogger.scala
+│   │   │   ├── model/        # Data models
+│   │   │   │   ├── Crop.scala
+│   │   │   │   ├── CropRegistry.scala
+│   │   │   │   ├── FoodItem.scala
+│   │   │   │   └── Player.scala
+│   │   │   ├── program/      # Main entry point
+│   │   │   │   └── MainProgram.scala
+│   │   │   └── utils/        # Utility functions
+│   │   │       └── FilterUtils.scala
+│   │   └── logging/          # Application logs
+│   │       ├── gardencontroller5-2025-08-08.log
+│   │       └── gardencontroller5-2025-08-09.log
+│   └── test/                 # Unit tests
+└── project/                  # SBT configuration files
+
+
