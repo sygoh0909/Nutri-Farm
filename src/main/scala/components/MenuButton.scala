@@ -4,6 +4,7 @@ import gui.{Garden, Home, Landing}
 import model.Player
 import scalafx.geometry.Side
 import scalafx.scene.control.*
+import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.layout.{AnchorPane, Region, VBox}
 import scalafx.stage.Stage
 
@@ -27,13 +28,33 @@ object MenuButton:
           },
           new MenuItem("Log Out") {
             onAction = _ =>
-              val confirm = new Alert(Alert.AlertType.Confirmation) {
-                initOwner(stage)
-                title = "Confirm Logout"
-                headerText = "Are you sure you want to log out?"
-              }
-              if confirm.showAndWait().contains(ButtonType.OK) then
-                stage.scene().setRoot(Landing.build(stage))
+              if player.name.toLowerCase == "guest" then
+                // Show warning about data loss (guest)
+                val confirmLogout = new Alert(AlertType.Confirmation) {
+                  initOwner(stage)
+                  title = "Log Out Confirmation"
+                  headerText = "Confirm Log out?"
+                  contentText = "You're using a guest account. Logging out will result in the loss of all game progress. Proceed?"
+                }
+
+                val stylesheet = getClass.getResource("/css/global.css").toExternalForm
+                confirmLogout.dialogPane().getStylesheets.add(stylesheet)
+                confirmLogout.dialogPane().getStyleClass.add("dialog-pane")
+
+                val response = confirmLogout.showAndWait()
+                if response.contains(ButtonType.OK) then
+                  stage.scene().setRoot(Landing.build(stage)) // Go back to login screen
+              else
+                // Confirm logout (normal logged-in players)
+                val confirmLogout = new Alert(AlertType.Confirmation) {
+                  initOwner(stage)
+                  title = "Log Out Confirmation"
+                  headerText = "Are you sure you want to log out?"
+                  contentText = "You can log in again later with your credentials."
+                }
+                val response = confirmLogout.showAndWait()
+                if response.contains(ButtonType.OK) then
+                  stage.scene().setRoot(Landing.build(stage))
           }
         )
       }
