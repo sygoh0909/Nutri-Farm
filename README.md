@@ -1,16 +1,52 @@
-Additional References
+# Nutri-Farm 🌱
 
-Futures and promises. (n.d.). Scala Documentation. https://docs.scala-lang.org/overviews/core/futures.html
+[![Scala 3](https://img.shields.io/badge/Scala-3.x-DE3423)](https://scala-lang.org)
+[![ScalaFX](https://img.shields.io/badge/ScalaFX-21.0.0-blue)](https://scalafx.org)
+[![Java](https://img.shields.io/badge/Java-21-007396)](https://openjdk.org)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Generic classes. (n.d.). Scala Documentation. https://docs.scala-lang.org/tour/generic-classes.html 
+## Description
 
-Jeremyh. (n.d.). GitHub - jeremyh/jBCrypt: A Java implementation of OpenBSD’s Blowfish password hashing code. GitHub. https://github.com/jeremyh/jBCrypt 
+Nutri-Farm is a GUI-based farming simulation game built with modern JVM technologies:
 
-Overview (Java SE 17 & JDK 17). (2025, July 15). https://docs.oracle.com/en/java/javase/17/docs/api/index.html 
+- **Scala 3** - For functional and expressive game logic
+- **ScalaFX 21** - For reactive UI rendering with JavaFX
+- **Java 21** - For performance and interoperability
+- **SBT** - For streamlined dependency management
 
-scalafx_3 24.0.0-R35 javadoc (org.scalafx). (n.d.). https://javadoc.io/doc/org.scalafx/scalafx_3/latest/index.html 
+## Key Features
 
-ScalaFX API 8.0.102-R11. (n.d.). https://scalafx.org/api/8.0/index.html#package 
+### 🌟 Authentication System
+- Secure login/registration
+- Password hashing with jBCrypt
 
-Slick. (n.d.). https://scala-slick.org/doc/3.5.0-M1/index.html 
+### 🌱 Gardening Simulation
+- Plant and harvest various crops
+- Growth cycle management
 
+### 📦 Inventory System
+- View, filter, and search items
+- Categorized storage
+
+### 🧭 Navigation
+- Intuitive menu system
+- Scene transitions
+
+## Prerequisites
+
+- **Java 21 JDK** ([Download](https://adoptium.net/))
+- **sbt** ([Installation Guide](https://www.scala-sbt.org/1.x/docs/Setup.html))
+- (Optional) **IDE** with Scala support:
+  - IntelliJ IDEA with Scala plugin
+  - VS Code with Metals extension
+
+## Getting Started
+
+### Running the Application
+
+#### From Command Line:
+```bash
+sbt run
+
+#### From Project Structure:
+Navigate to: src/main/scala/program/MainProgram.scala
