@@ -3,7 +3,6 @@
 [![Scala 3](https://img.shields.io/badge/Scala-3.x-DE3423)](https://scala-lang.org)
 [![ScalaFX](https://img.shields.io/badge/ScalaFX-21.0.0-blue)](https://scalafx.org)
 [![Java](https://img.shields.io/badge/Java-21-007396)](https://openjdk.org)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
 
