@@ -2,6 +2,7 @@ package controller
 
 import db.FoodDAO
 import gui.{Home, Inventory}
+import logging.GameLogger
 import model.{CropRegistry, FoodItem, Player}
 import scalafx.application.Platform
 import scalafx.collections.ObservableBuffer
@@ -15,9 +16,11 @@ import scalafx.stage.Stage
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scalafx.scene.control.{Alert, Button, Label, ProgressBar}
-import scalafx.scene.layout.StackPane // Container that stacks children nodes on top of each other
+import scalafx.scene.layout.StackPane
 
 object GardenController:
+
+  private val logger = GameLogger.getLogger(this.getClass)
 
   // Garden dimensions (2 rows, 6 columns)
   private val rows = 2
@@ -42,6 +45,7 @@ object GardenController:
 
   // Build garden plot grid
   def buildGrid(stage: Stage, player: Player): GridPane =
+    logger.info(s"[UI] Building garden grid for Player '${player.name}' (ID: ${player.id}) with $rows rows × $cols columns")
     val grid = new GridPane {
       styleClass += "garden-grid"
     }
@@ -93,11 +97,14 @@ object GardenController:
 
         // If player harvest (press the btn) the crop, crop will be saved to their inventory and the crop will be reset to empty
         harvestButtons(row)(col).onAction = _ => {
+          logger.info(s"[ACTION] Player '${player.name}' pressed Harvest on plot [$row,$col] → crop='${gardenCrop(row)(col)}', status='${gardenStatus(row)(col)}'")
+
           val crop = gardenCrop(row)(col)
 
           if gardenStatus(row)(col) == "Ready" then
             // Insert into inventory (DB)
             CropRegistry.getByName(crop).foreach { c =>
+              logger.info(s"[SUCCESS] Harvested '${c.name}' (+${c.points} points) for Player '${player.name}' (ID: ${player.id}). Plot [$row,$col] reset to Empty.")
               val food = FoodItem(0, c.name, c.nutrition, c.calories, c.cropType, player.id)
               FoodDAO.insert(food)
               player.points += c.points // Add points to player
@@ -156,6 +163,8 @@ object GardenController:
 
           // Clicking plot
           onMouseClicked = _ =>
+            logger.info(s"Plot [$row,$col] clicked. Current status: ${gardenStatus(row)(col)} | Current crop: ${gardenCrop(row)(col)}")
+
             // Reset all plots
             for r <- 0 until rows; c <- 0 until cols do
               stackPanes(r)(c).styleClass.remove("garden-plot-selected")
@@ -171,15 +180,19 @@ object GardenController:
 
             gardenStatus(row)(col) match
               case "Growing" =>
+                logger.info(s"Showing growing UI for plot [$row,$col]")
                 progressBars(row)(col).visible = true
                 statusTexts(row)(col).visible = true
+                plantButton.visible = false
 
               case "Ready" =>
+                logger.info(s"Showing harvest button for plot [$row,$col]")
                 harvestButtons(row)(col).visible = true
+                plantButton.visible = false
 
               case _ => // Do nothing extra for Empty
-
-            plantButton.visible = true
+                logger.info(s"No crop in plot [$row,$col], keeping UI empty")
+                plantButton.visible = true
         }
 
         // Store the tile to reset later
@@ -240,10 +253,12 @@ object GardenController:
         dialog.showAndWait().foreach { selectedCrop =>
           val row = selectedRow
           val col = selectedCol
+          logger.info(s"[INPUT] Player '${player.name}' clicked Plant on plot [$row,$col] → crop='${gardenCrop(row)(col)}', status='${gardenStatus(row)(col)}'")
 
           if gardenStatus(row)(col) == "Ready" then
             // Show warning and prevent replanting
             val alert = new Alert(AlertType.Warning) {
+              logger.warning(s"[DENIED] Player '${player.name}' tried to plant on plot [$row,$col] with status='Ready'. Must harvest first.")
               title = "Cannot Plant"
               headerText = "Plot is already ready to harvest!"
               contentText = "Please harvest the crop before planting a new one."
@@ -255,6 +270,7 @@ object GardenController:
             alert.showAndWait()
 
           else if gardenCrop(row)(col) == "Empty" then
+            logger.info(s"[ACTION] Planting '$selectedCrop' in plot [$row,$col] for Player '${player.name}'. Status → Growing.")
             gardenCrop(row)(col) = selectedCrop
             gardenStatus(row)(col) = "Growing"
             emojiLabels(row)(col).text = "\uD83C\uDF31"
@@ -263,6 +279,7 @@ object GardenController:
             progressBars(row)(col).visible = true
             statusTexts(row)(col).visible = true
             harvestButtons(row)(col).visible = false
+            plantButton.visible = false
 
             // Simulate growing with background thread
             Future {
@@ -276,7 +293,7 @@ object GardenController:
               // When growing finishes, show only harvest button
               Platform.runLater {
                 gardenStatus(row)(col) = "Ready"
-
+                logger.info(s"[EVENT] Growth complete for plot [$row,$col]. Crop='$selectedCrop' now Ready for harvest.")
                 val emojiLabel = emojiLabels(row)(col)
                 CropRegistry.getByName(selectedCrop) match {
                   case Some(crop) => emojiLabel.text = crop.emoji
