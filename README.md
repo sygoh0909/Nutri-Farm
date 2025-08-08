@@ -48,11 +48,17 @@ Nutri-Farm is a GUI-based farming simulation game built with modern JVM technolo
 sbt run
 ```
 
+#### From IDE Project Structure:
+1. Navigate to: src/main/scala/program/MainProgram.scala
+2. Click the run button (▶️)
+
 ## 📁 Project Structure
 
 ```text
 nutri-farm/
 ├── .github/                  # GitHub configuration files
+├── .gitignore                # Git exclusion rules
+├── build.sbt                 # Main build configuration
 ├── src/
 │   ├── main/
 │   │   ├── resources/        # Application assets
@@ -89,18 +95,19 @@ nutri-farm/
 │   │   │   │   └── Player.scala
 │   │   │   ├── program/      # Main entry point
 │   │   │   │   └── MainProgram.scala
-│   │   │   └── utils/       # Utility functions
+│   │   │   └── utils/        # Utility functions
 │   │   │       └── FilterUtils.scala
-│   │   └── logging/         # Application logs
+│   │   └── logging/          # Application logs
 │   │       ├── gardencontroller5-2025-08-08.log
 │   │       └── gardencontroller5-2025-08-09.log
-│   └── test/                # Unit tests
-└── project/                 # SBT configuration files
+│   └── test/                 # Unit tests
+├── target/                   # Compiled classes and build artifacts
+├── project/                  # SBT configuration files
+│   ├── target/               # SBT build outputs
+│   └── *.sbt                 # Additional build configs
+├── idea/                     # IntelliJ IDEA configuration (gitignored)
+└── External Libraries/       # IDE-managed dependencies (auto-generated)
 ```
-
-#### From IDE Project Structure:
-1. Navigate to: src/main/scala/program/MainProgram.scala
-2. Click the run button (▶️)
 
 ## Technical References
 
