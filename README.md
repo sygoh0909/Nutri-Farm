@@ -52,7 +52,7 @@ sbt run
 1. Navigate to: src/main/scala/program/MainProgram.scala
 2. Click the run button (▶️)
 
-## Project Structure 📁 
+## 📁 Project Structure 
 
 ```text
 nutri-farm/
