@@ -51,12 +51,12 @@ object LandingController:
 
     // Validation labels (initially hidden)
     val emailError = new Label("") {
-      styleClass += "error-message"
+      style = "-fx-text-fill: red; -fx-font-size: 12px"
       visible = false
     }
 
     val passwordError = new Label("") {
-      styleClass += "error-message"
+      style = "-fx-text-fill: red; -fx-font-size: 12px"
       visible = false
     }
 
@@ -80,7 +80,6 @@ object LandingController:
 
         var valid = true
 
-        // Check for empty fields
         if email.isEmpty then
           emailError.text = "Email is required"
           emailError.visible = true
@@ -143,15 +142,15 @@ object LandingController:
     val passwordField = new PasswordField() { promptText = "Password" }
 
     val nameError = new Label("") {
-      styleClass += "error-message"
+      style = "-fx-text-fill: red; -fx-font-size: 12px"
       visible = false
     }
     val emailError = new Label("") {
-      styleClass += "error-message"
+      style = "-fx-text-fill: red; -fx-font-size: 12px"
       visible = false
     }
     val passwordError = new Label("") {
-      styleClass += "error-message"
+      style = "-fx-text-fill: red; -fx-font-size: 12px"
       visible = false
     }
 
@@ -191,7 +190,6 @@ object LandingController:
           valid = false
         else emailError.visible = false
 
-        // Check for password format
         if password.length < 6 then
           passwordError.text = "Password must be at least 6 characters"
           passwordError.visible = true
@@ -213,15 +211,13 @@ object LandingController:
             val player = Player(0, name, email, hashed, 0)
             // Successful register account, and added to db
             PlayerDAO.insert(player).onComplete {
-              case Success(newId) =>
-                val playerWithId = player.copy(id = newId) // now has the actual DB ID
-                loggedInPlayer = Some(playerWithId)
-
+              case Success(_) =>
+                loggedInPlayer = Some(player)
                 Platform.runLater {
                   new Alert(Alert.AlertType.Information) {
                     contentText = "Registration successful!"
                   }.showAndWait()
-                  appStage.scene().setRoot(Home.build(playerWithId, appStage))
+                  appStage.scene().setRoot(Home.build(player, appStage))
                 }
 
               case Failure(e) =>
