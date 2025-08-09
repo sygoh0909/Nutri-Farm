@@ -239,6 +239,7 @@ object LandingController:
                   new Alert(Alert.AlertType.Information) {
                     contentText = "Registration successful!"
                   }.showAndWait()
+                  dialog.close()
                   appStage.scene().setRoot(Home.build(player, appStage))
                 }
 
