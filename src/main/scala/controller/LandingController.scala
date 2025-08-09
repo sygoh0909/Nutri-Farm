@@ -73,26 +73,31 @@ object LandingController:
 
     dialog.dialogPane().content = grid
 
-    dialog.resultConverter = dialogButton =>
-      if dialogButton == ButtonType.OK then
-        val email = emailField.text.value.trim
-        val password = passwordField.text.value
+    // Disable the default close behavior on OK button click:
+    val okButton = dialog.dialogPane().lookupButton(ButtonType.OK).asInstanceOf[javafx.scene.control.Button]
 
-        var valid = true
+    okButton.addEventFilter(javafx.event.ActionEvent.ACTION, { event =>
+      val email = emailField.text.value.trim
+      val password = passwordField.text.value
 
-        if email.isEmpty then
-          emailError.text = "Email is required"
-          emailError.visible = true
-          valid = false
-        else emailError.visible = false
+      var valid = true
 
-        if password.isEmpty then
-          passwordError.text = "Password is required"
-          passwordError.visible = true
-          valid = false
-        else passwordError.visible = false
+      if email.isEmpty then
+        emailError.text = "Email is required"
+        emailError.visible = true
+        valid = false
+      else emailError.visible = false
 
-        if !valid then return null
+      if password.isEmpty then
+        passwordError.text = "Password is required"
+        passwordError.visible = true
+        valid = false
+      else passwordError.visible = false
+
+      if !valid then
+        event.consume() // prevent dialog close
+      else
+        okButton.disable = true
 
         PlayerDAO.findByEmail(email).onComplete { // on Complete is Future operations
           case Success(Some(player)) =>
@@ -100,6 +105,7 @@ object LandingController:
               loggedInPlayer = Some(player)
               println(s"Login successful! Welcome, ${player.name}.") // For testing
               Platform.runLater { // Used to safely update the UI from a background thread
+                dialog.close() // Close dialog on success
                 appStage.scene().setRoot(Home.build(player, appStage)) // Bring user to home page if successful validated
               }
             else
@@ -108,6 +114,7 @@ object LandingController:
                 new Alert(Alert.AlertType.Error) {
                   contentText = "Incorrect password."
                 }.showAndWait()
+                okButton.disable = false
               }
 
           case Success(None) =>
@@ -115,6 +122,7 @@ object LandingController:
               new Alert(Alert.AlertType.Warning) {
                 contentText = "Email not found."
               }.showAndWait()
+              okButton.disable = false
             }
 
           case Failure(e) =>
@@ -122,10 +130,13 @@ object LandingController:
               new Alert(Alert.AlertType.Error) {
                 contentText = s"Login error: ${e.getMessage}"
               }.showAndWait()
+              okButton.disable = false
             }
         }
+        event.consume() // Prevent dialog from closing immediately on OK button click
+      })
 
-    dialog.showAndWait()
+      dialog.showAndWait()
 
   // Register feature (popup)
   def showRegisterPopup(): Unit =
@@ -170,40 +181,44 @@ object LandingController:
 
     dialog.dialogPane().content = grid
 
-    dialog.resultConverter = dialogButton =>
-      if dialogButton == ButtonType.OK then
-        val name = nameField.text.value.trim
-        val email = emailField.text.value.trim
-        val password = passwordField.text.value
+    val okButton = dialog.dialogPane().lookupButton(ButtonType.OK).asInstanceOf[javafx.scene.control.Button]
 
-        var valid = true
+    okButton.addEventFilter(javafx.event.ActionEvent.ACTION, { event =>
+      val name = nameField.text.value.trim
+      val email = emailField.text.value.trim
+      val password = passwordField.text.value
 
-        if name.isEmpty then
-          nameError.text = "Name is required"
-          nameError.visible = true
-          valid = false
-        else nameError.visible = false
+      var valid = true
 
-        // Check email format
-        if email.isEmpty then
-          emailError.text = "Email is required"
-          emailError.visible = true
-          valid = false
-        else if !email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$") then
-          emailError.text = "Invalid email format"
-          emailError.visible = true
-          valid = false
-        else
-          emailError.visible = false
+      if name.isEmpty then
+        nameError.text = "Name is required"
+        nameError.visible = true
+        valid = false
+      else nameError.visible = false
 
-        // Check password format
-        if password.length < 6 then
-          passwordError.text = "Password must be at least 6 characters"
-          passwordError.visible = true
-          valid = false
-        else passwordError.visible = false
+      // Check email format
+      if email.isEmpty then
+        emailError.text = "Email is required"
+        emailError.visible = true
+        valid = false
+      else if !email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$") then
+        emailError.text = "Invalid email format"
+        emailError.visible = true
+        valid = false
+      else
+        emailError.visible = false
 
-        if !valid then return null
+      // Check password format
+      if password.length < 6 then
+        passwordError.text = "Password must be at least 6 characters"
+        passwordError.visible = true
+        valid = false
+      else passwordError.visible = false
+
+      if !valid then
+        event.consume() // prevent dialog close
+      else
+        okButton.disable = true
 
         PlayerDAO.findByEmail(email).onComplete {
           case Success(Some(_)) =>
@@ -232,6 +247,7 @@ object LandingController:
                   new Alert(Alert.AlertType.Error) {
                     contentText = s"Registration failed: ${e.getMessage}"
                   }.showAndWait()
+                  okButton.disable = false
                 }
             }
 
@@ -240,7 +256,10 @@ object LandingController:
               new Alert(Alert.AlertType.Error) {
                 contentText = s"Error checking email: ${e.getMessage}"
               }.showAndWait()
+              okButton.disable = false
             }
         }
+        event.consume() // Prevent dialog from closing immediately on OK button click
+    })
 
     dialog.showAndWait()
