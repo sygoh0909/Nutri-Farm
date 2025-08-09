@@ -1,6 +1,6 @@
 package components
 
-import gui.{Garden, Home, Landing}
+import gui.{Garden, Home, Inventory, Landing}
 import model.Player
 import scalafx.geometry.Side
 import scalafx.scene.control.*
@@ -25,6 +25,9 @@ object MenuButton:
           },
           new MenuItem("Garden") {
             onAction = _ => stage.scene().setRoot(Garden.build(stage, player))
+          },
+          new MenuItem("Inventory") {
+            onAction = _ => stage.scene().setRoot(Inventory.build(player, stage))
           },
           new MenuItem("Log Out") {
             onAction = _ =>
