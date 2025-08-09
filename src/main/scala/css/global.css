@@ -166,3 +166,8 @@
     -fx-background-color: #4CAF50;
     -fx-text-fill: white;
 }
+
+.error-message {
+    -fx-text-fill: red;
+    -fx-font-size: 12px;
+}
