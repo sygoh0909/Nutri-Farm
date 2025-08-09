@@ -218,11 +218,7 @@ object GardenController:
     val inventoryBtn = new Button("Inventory") {
       styleClass += "inventory-button"
       onAction = _ =>
-        FoodDAO.getByPlayerId(player.id).foreach { items =>
-          Platform.runLater {
-            stage.scene().setRoot(Inventory.build(player, items, stage))
-          }
-        }
+        stage.scene().setRoot(gui.Inventory.build(player, stage))
     }
 
     // Back to home page button
