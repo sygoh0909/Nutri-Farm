@@ -133,7 +133,6 @@ object LandingController:
               okButton.disable = false
             }
         }
-        event.consume() // Prevent dialog from closing immediately on OK button click
       })
 
       dialog.showAndWait()
@@ -260,7 +259,6 @@ object LandingController:
               okButton.disable = false
             }
         }
-        event.consume() // Prevent dialog from closing immediately on OK button click
     })
 
     dialog.showAndWait()
