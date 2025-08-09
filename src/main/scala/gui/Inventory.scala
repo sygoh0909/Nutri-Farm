@@ -6,7 +6,7 @@ import scalafx.scene.control.*
 import scalafx.scene.layout.*
 import scalafx.scene.text.Text
 import scalafx.stage.Stage
-import model.{CropType, FoodItem, Player}
+import model.{CropType, Player}
 import scalafx.application.Platform
 import scalafx.util.StringConverter
 import utils.FilterUtils.*
@@ -53,6 +53,9 @@ object Inventory:
       )
     }
 
+    // Search bar state
+    var currentQuery: String = ""
+
     // Search bar
     val searchField = new TextField {
       promptText = "Search by name, nutrition, or crop type"
@@ -69,7 +72,7 @@ object Inventory:
       styleClass.add("game-button")
       onAction = _ => stage.scene().setRoot(Home.build(player, stage))
     }
-    
+
     // Load inventory from controller
     InventoryController.loadInventory(player).foreach { items =>
       Platform.runLater {
