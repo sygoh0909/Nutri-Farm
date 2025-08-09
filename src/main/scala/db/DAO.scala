@@ -15,6 +15,10 @@ object PlayerDAO: // Provides functions to interact with player table
   def findByEmail(email: String): Future[Option[Player]] = // Find player by email, return some or none
     DBConfig.db.run(PlayerTable.players.filter(_.email === email).result.headOption)
 
+  def updatePoints(playerId: Int, newPoints: Int): Future[Int] = // Update points
+    val query = PlayerTable.players.filter(_.id === playerId).map(_.points).update(newPoints)
+    DBConfig.db.run(query)
+
 object FoodDAO: // Provides functions to interact with food item table
   def insert(food: FoodItem): Future[Int] =
     DBConfig.db.run(FoodTable.foodItem += food)

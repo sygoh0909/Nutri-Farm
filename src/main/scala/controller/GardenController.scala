@@ -1,6 +1,6 @@
 package controller
 
-import db.FoodDAO
+import db.{FoodDAO, PlayerDAO}
 import gui.{Home, Inventory}
 import logging.GameLogger
 import model.{CropRegistry, FoodItem, Player}
@@ -108,6 +108,7 @@ object GardenController:
               val food = FoodItem(0, c.name, c.nutrition, c.calories, c.cropType, player.id)
               FoodDAO.insert(food)
               player.points += c.points // Add points to player
+              PlayerDAO.updatePoints(player.id, player.points)
 
               // Reset the plot data
               gardenCrop(row)(col) = "Empty"
