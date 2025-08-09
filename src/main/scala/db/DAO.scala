@@ -6,8 +6,11 @@ import scala.concurrent.Future
 
 // Data access object (DAO) to map custom functions for different db
 object PlayerDAO: // Provides functions to interact with player table
-  def insert(player: Player): Future[Int] = // Insert new player to db player table
-    DBConfig.db.run((PlayerTable.players returning PlayerTable.players.map(_.id)) += player)
+
+  def insert(player: Player): Future[Player] = // Insert new player to db player table and getting id
+    val query = (PlayerTable.players returning PlayerTable.players.map(_.id)
+      into ((player, playerId) => player.copy(id = playerId))) += player
+    DBConfig.db.run(query)
 
   def findByEmail(email: String): Future[Option[Player]] = // Find player by email, return some or none
     DBConfig.db.run(PlayerTable.players.filter(_.email === email).result.headOption)
