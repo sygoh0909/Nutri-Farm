@@ -218,7 +218,7 @@ object GardenController:
     val inventoryBtn = new Button("Inventory") {
       styleClass += "inventory-button"
       onAction = _ =>
-        stage.scene().setRoot(gui.Inventory.build(player, stage))
+        stage.scene().setRoot(Inventory.build(player, stage))
     }
 
     // Back to home page button
