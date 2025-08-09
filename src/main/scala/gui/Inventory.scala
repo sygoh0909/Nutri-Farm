@@ -9,7 +9,7 @@ import model.{CropRegistry, CropType, FoodItem, Player}
 import scalafx.util.StringConverter
 import utils.FilterUtils.*
 
-object Inventory {
+object Inventory:
 
   def build(player: Player, items: Seq[FoodItem], stage: Stage): StackPane = {
     val itemToggleGroup = new ToggleGroup()
@@ -210,4 +210,3 @@ object Inventory {
       )
     }
   }
-}

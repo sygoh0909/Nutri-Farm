@@ -1,6 +1,6 @@
 package utils
 
-object FilterUtils {
+object FilterUtils:
 
   // Filter by enum field
   def filterByEnumField[T, E](items: Seq[T], selected: Option[E])(extractField: T => E): Seq[T] =
@@ -29,4 +29,3 @@ object FilterUtils {
 
   // Makes a string lowercase and trims spaces
   private def normalize(s: String): String = Option(s).map(_.toLowerCase.trim).getOrElse("")
-}
