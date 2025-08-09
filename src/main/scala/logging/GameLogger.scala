@@ -14,7 +14,7 @@ object GameLogger:
   if (!logDir.exists()) logDir.mkdirs()
 
   // Returns logger for given class (one log file per class per day)
-  def getLogger(clazz: Class[_]): Logger = {
+  def getLogger(clazz: Class[_]): Logger =
     val name = clazz.getSimpleName
     val logger = Logger.getLogger(name)
 
@@ -37,4 +37,3 @@ object GameLogger:
     }
 
     logger
-  }
