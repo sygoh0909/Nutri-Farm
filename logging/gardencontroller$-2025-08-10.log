@@ -37,11 +37,11 @@
 [01:07:03] [INFO] [GardenController$] [EVENT] Growth complete for plot [0,3]. Crop='Eggplant' now Ready for harvest.
 [01:07:04] [INFO] [GardenController$] [ACTION] Player 'Guest' pressed Harvest on plot [0,3] → crop='Eggplant', status='Ready'
 [01:07:04] [INFO] [GardenController$] [SUCCESS] Harvested 'Eggplant' (+6 points) for Player 'Guest' (ID: -1882424763). Plot [0,3] reset to Empty.
-[01:09:43] [INFO] [GardenController$] [UI] Building garden grid for Player 'user' (ID: 1) with 2 rows × 6 columns
-[01:09:44] [INFO] [GardenController$] Plot [1,5] clicked. Current status: Empty | Current crop: Empty
-[01:09:44] [INFO] [GardenController$] No crop in plot [1,5], keeping UI empty
-[01:09:49] [INFO] [GardenController$] [INPUT] Player 'user' clicked Plant on plot [1,5] → crop='Empty', status='Empty'
-[01:09:49] [INFO] [GardenController$] [ACTION] Planting 'Corn' in plot [1,5] for Player 'user'. Status → Growing.
-[01:09:52] [INFO] [GardenController$] [EVENT] Growth complete for plot [1,5]. Crop='Corn' now Ready for harvest.
-[01:09:53] [INFO] [GardenController$] [ACTION] Player 'user' pressed Harvest on plot [1,5] → crop='Corn', status='Ready'
-[01:09:53] [INFO] [GardenController$] [SUCCESS] Harvested 'Corn' (+4 points) for Player 'user' (ID: 1). Plot [1,5] reset to Empty.
+[02:48:16] [INFO] [GardenController$] [UI] Building garden grid for Player 'user' (ID: 1) with 2 rows × 6 columns
+[02:48:19] [INFO] [GardenController$] Plot [0,5] clicked. Current status: Empty | Current crop: Empty
+[02:48:19] [INFO] [GardenController$] No crop in plot [0,5], keeping UI empty
+[02:48:25] [INFO] [GardenController$] [INPUT] Player 'user' clicked Plant on plot [0,5] → crop='Empty', status='Empty'
+[02:48:25] [INFO] [GardenController$] [ACTION] Planting 'Kiwi' in plot [0,5] for Player 'user'. Status → Growing.
+[02:48:28] [INFO] [GardenController$] [EVENT] Growth complete for plot [0,5]. Crop='Kiwi' now Ready for harvest.
+[02:48:32] [INFO] [GardenController$] [ACTION] Player 'user' pressed Harvest on plot [0,5] → crop='Kiwi', status='Ready'
+[02:48:32] [INFO] [GardenController$] [SUCCESS] Harvested 'Kiwi' (+5 points) for Player 'user' (ID: 1). Plot [0,5] reset to Empty.
