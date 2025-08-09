@@ -13,7 +13,6 @@ case object Carrot extends Crop:
   val cropType: CropType = CropType.Vegetable
   val recipes: Seq[String] = Seq("Carrot Soup", "Carrot Cake")
 
-
 case object Tomato extends Crop:
   val name: String = "Tomato"
   val emoji: String = "🍅"
