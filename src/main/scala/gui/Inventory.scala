@@ -8,8 +8,10 @@ import scalafx.scene.text.Text
 import scalafx.stage.Stage
 import model.{CropType, Player}
 import scalafx.application.Platform
+import scalafx.scene.paint.Color
 import scalafx.util.StringConverter
 import utils.FilterUtils.*
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object Inventory:
@@ -97,6 +99,7 @@ object Inventory:
       children = Seq(
         new Text(s"${player.name}'s Inventory") {
           styleClass.add("title")
+          fill = Color.White
         },
         new HBox(40) {
           alignment = Pos.TopCenter
