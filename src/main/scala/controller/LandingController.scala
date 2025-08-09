@@ -92,7 +92,7 @@ object LandingController:
           valid = false
         else passwordError.visible = false
 
-        if valid then () else null
+        if !valid then return null
 
         PlayerDAO.findByEmail(email).onComplete { // on Complete is Future operations
           case Success(Some(player)) =>
@@ -184,19 +184,26 @@ object LandingController:
           valid = false
         else nameError.visible = false
 
+        // Check email format
         if email.isEmpty then
           emailError.text = "Email is required"
           emailError.visible = true
           valid = false
-        else emailError.visible = false
+        else if !email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$") then
+          emailError.text = "Invalid email format"
+          emailError.visible = true
+          valid = false
+        else
+          emailError.visible = false
 
+        // Check password format
         if password.length < 6 then
           passwordError.text = "Password must be at least 6 characters"
           passwordError.visible = true
           valid = false
         else passwordError.visible = false
 
-        if valid then () else null
+        if !valid then return null
 
         PlayerDAO.findByEmail(email).onComplete {
           case Success(Some(_)) =>
