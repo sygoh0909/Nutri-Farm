@@ -1,0 +1,47 @@
+[00:58:47] [INFO] [GardenController$] [UI] Building garden grid for Player 'sygoh' (ID: 2) with 2 rows × 6 columns
+[01:00:38] [INFO] [GardenController$] Plot [0,4] clicked. Current status: Empty | Current crop: Empty
+[01:00:38] [INFO] [GardenController$] No crop in plot [0,4], keeping UI empty
+[01:00:49] [INFO] [GardenController$] Plot [0,3] clicked. Current status: Empty | Current crop: Empty
+[01:00:49] [INFO] [GardenController$] No crop in plot [0,3], keeping UI empty
+[01:00:50] [INFO] [GardenController$] Plot [0,2] clicked. Current status: Empty | Current crop: Empty
+[01:00:50] [INFO] [GardenController$] No crop in plot [0,2], keeping UI empty
+[01:01:10] [INFO] [GardenController$] [INPUT] Player 'sygoh' clicked Plant on plot [0,2] → crop='Empty', status='Empty'
+[01:01:10] [INFO] [GardenController$] [ACTION] Planting 'Carrot' in plot [0,2] for Player 'sygoh'. Status → Growing.
+[01:01:13] [INFO] [GardenController$] [EVENT] Growth complete for plot [0,2]. Crop='Carrot' now Ready for harvest.
+[01:01:46] [INFO] [GardenController$] [ACTION] Player 'sygoh' pressed Harvest on plot [0,2] → crop='Carrot', status='Ready'
+[01:01:46] [INFO] [GardenController$] [SUCCESS] Harvested 'Carrot' (+5 points) for Player 'sygoh' (ID: 2). Plot [0,2] reset to Empty.
+[01:01:49] [INFO] [GardenController$] Plot [0,3] clicked. Current status: Empty | Current crop: Empty
+[01:01:49] [INFO] [GardenController$] No crop in plot [0,3], keeping UI empty
+[01:01:53] [INFO] [GardenController$] [INPUT] Player 'sygoh' clicked Plant on plot [0,3] → crop='Empty', status='Empty'
+[01:01:53] [INFO] [GardenController$] [ACTION] Planting 'Wheat' in plot [0,3] for Player 'sygoh'. Status → Growing.
+[01:01:56] [INFO] [GardenController$] [EVENT] Growth complete for plot [0,3]. Crop='Wheat' now Ready for harvest.
+[01:02:07] [INFO] [GardenController$] [UI] Building garden grid for Player 'sygoh' (ID: 2) with 2 rows × 6 columns
+[01:02:09] [INFO] [GardenController$] Plot [0,3] clicked. Current status: Ready | Current crop: Wheat
+[01:02:09] [INFO] [GardenController$] Showing harvest button for plot [0,3]
+[01:02:54] [INFO] [GardenController$] [ACTION] Player 'sygoh' pressed Harvest on plot [0,3] → crop='Wheat', status='Ready'
+[01:02:54] [INFO] [GardenController$] [SUCCESS] Harvested 'Wheat' (+6 points) for Player 'sygoh' (ID: 2). Plot [0,3] reset to Empty.
+[01:04:10] [INFO] [GardenController$] [UI] Building garden grid for Player 'sygoh' (ID: 2) with 2 rows × 6 columns
+[01:04:11] [INFO] [GardenController$] Plot [1,5] clicked. Current status: Empty | Current crop: Empty
+[01:04:11] [INFO] [GardenController$] No crop in plot [1,5], keeping UI empty
+[01:04:13] [INFO] [GardenController$] [INPUT] Player 'sygoh' clicked Plant on plot [1,5] → crop='Empty', status='Empty'
+[01:04:13] [INFO] [GardenController$] [ACTION] Planting 'Carrot' in plot [1,5] for Player 'sygoh'. Status → Growing.
+[01:04:17] [INFO] [GardenController$] [EVENT] Growth complete for plot [1,5]. Crop='Carrot' now Ready for harvest.
+[01:04:18] [INFO] [GardenController$] [ACTION] Player 'sygoh' pressed Harvest on plot [1,5] → crop='Carrot', status='Ready'
+[01:04:18] [INFO] [GardenController$] [SUCCESS] Harvested 'Carrot' (+5 points) for Player 'sygoh' (ID: 2). Plot [1,5] reset to Empty.
+[01:05:48] [INFO] [GardenController$] [UI] Building garden grid for Player 'sygoh' (ID: 2) with 2 rows × 6 columns
+[01:06:53] [INFO] [GardenController$] [UI] Building garden grid for Player 'Guest' (ID: -1882424763) with 2 rows × 6 columns
+[01:06:56] [INFO] [GardenController$] Plot [0,3] clicked. Current status: Empty | Current crop: Empty
+[01:06:56] [INFO] [GardenController$] No crop in plot [0,3], keeping UI empty
+[01:07:00] [INFO] [GardenController$] [INPUT] Player 'Guest' clicked Plant on plot [0,3] → crop='Empty', status='Empty'
+[01:07:00] [INFO] [GardenController$] [ACTION] Planting 'Eggplant' in plot [0,3] for Player 'Guest'. Status → Growing.
+[01:07:03] [INFO] [GardenController$] [EVENT] Growth complete for plot [0,3]. Crop='Eggplant' now Ready for harvest.
+[01:07:04] [INFO] [GardenController$] [ACTION] Player 'Guest' pressed Harvest on plot [0,3] → crop='Eggplant', status='Ready'
+[01:07:04] [INFO] [GardenController$] [SUCCESS] Harvested 'Eggplant' (+6 points) for Player 'Guest' (ID: -1882424763). Plot [0,3] reset to Empty.
+[01:09:43] [INFO] [GardenController$] [UI] Building garden grid for Player 'user' (ID: 1) with 2 rows × 6 columns
+[01:09:44] [INFO] [GardenController$] Plot [1,5] clicked. Current status: Empty | Current crop: Empty
+[01:09:44] [INFO] [GardenController$] No crop in plot [1,5], keeping UI empty
+[01:09:49] [INFO] [GardenController$] [INPUT] Player 'user' clicked Plant on plot [1,5] → crop='Empty', status='Empty'
+[01:09:49] [INFO] [GardenController$] [ACTION] Planting 'Corn' in plot [1,5] for Player 'user'. Status → Growing.
+[01:09:52] [INFO] [GardenController$] [EVENT] Growth complete for plot [1,5]. Crop='Corn' now Ready for harvest.
+[01:09:53] [INFO] [GardenController$] [ACTION] Player 'user' pressed Harvest on plot [1,5] → crop='Corn', status='Ready'
+[01:09:53] [INFO] [GardenController$] [SUCCESS] Harvested 'Corn' (+4 points) for Player 'user' (ID: 1). Plot [1,5] reset to Empty.
