@@ -1,17 +1,21 @@
 package gui
 
+import controller.InventoryController
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.*
 import scalafx.scene.layout.*
 import scalafx.scene.text.Text
 import scalafx.stage.Stage
-import model.{CropRegistry, CropType, FoodItem, Player}
+import model.{CropType, FoodItem, Player}
+import scalafx.application.Platform
 import scalafx.util.StringConverter
 import utils.FilterUtils.*
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object Inventory:
 
-  def build(player: Player, items: Seq[FoodItem], stage: Stage): StackPane = {
+  def build(player: Player, stage: Stage): StackPane =
+
     val itemToggleGroup = new ToggleGroup()
 
     // List of food items
@@ -25,70 +29,6 @@ object Inventory:
       padding = Insets(16)
       styleClass.add("info-box")
       visible = false
-    }
-
-    // Updates the displayed list of items (with grouping and quantity count)
-    def updateItemList(filteredItems: Seq[FoodItem]): Unit = {
-      itemList.children.clear()
-
-      // Group same items by name and crop type, then count quantity
-      val groupedItems = filteredItems.groupBy(item => (item.name, item.cropType)).map {
-        case ((name, cropType), group) => (group.head, group.size)
-      }
-
-      // Toggleable btn for each item/grouped item
-      groupedItems.toSeq.sortBy(_._1.name).foreach { case (item, count) =>
-        // Extra details shown when an item is selected
-        val expandableContent = new VBox(8) {
-          styleClass.add("expandable-content")
-          padding = Insets(8, 0, 0, 16)
-          children = Seq(
-            new Text(s"Nutrition: ${item.nutrition}") {
-              styleClass.add("detail-text")
-            },
-            new Text(s"Calories: ${item.calories}") {
-              styleClass.add("detail-text")
-            },
-            new Label("Suggested Recipes:") {
-              styleClass.add("detail-title")
-            },
-            new ListView[String](
-              CropRegistry.getByName(item.name).map(_.recipes).getOrElse(Seq("No recipes found"))
-            ) {
-              styleClass.add("recipe-list")
-              prefHeight = 100
-              mouseTransparent = true
-              focusTraversable = false
-            }
-          )
-        }
-
-        // Toggle button that controls visibility of item info/details
-        val itemContainer = new VBox(0) {
-          children = Seq(
-            new ToggleButton(s"${item.name} • ${count}x • ${item.calories} cal") {
-              toggleGroup = itemToggleGroup
-              styleClass.add("item-button")
-              maxWidth = Double.MaxValue
-              onAction = _ => {
-                if (selected.value) {
-                  infoBox.children = Seq(
-                    new Text(item.name) {
-                      styleClass.add("detail-title")
-                    },
-                    expandableContent
-                  )
-                  infoBox.visible = true
-                } else {
-                  infoBox.visible = false
-                }
-              }
-            }
-          )
-        }
-
-        itemList.children.add(itemContainer)
-      }
     }
 
     // Filter dropdown for CropType
@@ -113,38 +53,10 @@ object Inventory:
       )
     }
 
-    // Search bar state
-    var currentQuery: String = ""
-
     // Search bar
     val searchField = new TextField {
       promptText = "Search by name, nutrition, or crop type"
       prefWidth = 300
-    }
-
-    searchField.text.onChange { (_, _, _) => applyFilters() }
-    cropTypeFilterBox.onAction = _ => applyFilters()
-
-    // Attach change listeners to trigger filtering
-    def applyFilters(): Unit = {
-      val query = searchField.text.value.trim
-      val selectedCropType = cropTypeFilterBox.value.value
-
-      // Start with the full list
-      var filtered = items
-
-      // Apply crop type filter if selected
-      filtered = filterByEnumField(filtered, selectedCropType)(_.cropType)
-
-      // Apply search filter if query is not empty
-      if (query.nonEmpty) {
-        val byName = filterAllByFieldContains(filtered, query)(_.name)
-        val byNutrition = filterAllByFieldContains(filtered, query)(_.nutrition)
-        val byCropType = filterAllByFieldContainsOpt(filtered, query)(item => Option(item.cropType))
-        filtered = (byName ++ byNutrition ++ byCropType).distinct
-      }
-      // Refresh item list
-      updateItemList(filtered)
     }
 
     val filterControls = new HBox(12) {
@@ -157,8 +69,22 @@ object Inventory:
       styleClass.add("game-button")
       onAction = _ => stage.scene().setRoot(Home.build(player, stage))
     }
+    
+    // Load inventory from controller
+    InventoryController.loadInventory(player).foreach { items =>
+      Platform.runLater {
+        InventoryController.updateItemList(itemList, infoBox, itemToggleGroup, items)
 
-    updateItemList(items) // Initial list (none filter)
+        // Filtering using controller method
+        def applyFilters(): Unit =
+          val filtered = InventoryController.filterItems(items, cropTypeFilterBox.value.value, searchField.text.value.trim)
+          InventoryController.updateItemList(itemList, infoBox, itemToggleGroup, filtered)
+
+        // Attach change listeners to trigger filtering after data loaded
+        searchField.text.onChange((_, _, _) => applyFilters())
+        cropTypeFilterBox.onAction = _ => applyFilters()
+      }
+    }
 
     // Final layout containing all inventory components
     val mainLayout = new VBox(20) {
@@ -209,4 +135,3 @@ object Inventory:
         components.MenuButton.build(stage, player)
       )
     }
-  }
