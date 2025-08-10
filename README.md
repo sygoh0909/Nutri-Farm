@@ -3,6 +3,7 @@
 [![Scala 3](https://img.shields.io/badge/Scala-3.x-DE3423)](https://scala-lang.org)
 [![ScalaFX](https://img.shields.io/badge/ScalaFX-21.0.0-blue)](https://scalafx.org)
 [![Java](https://img.shields.io/badge/Java-21-007396)](https://openjdk.org)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%20%7C%20NeonDB-blue)](https://www.postgresql.org)
 
 ## Description
 
@@ -120,6 +121,7 @@ nutri-farm/
 | [**Java 21**](https://openjdk.org/projects/jdk/21/) | [JDK API](https://docs.oracle.com/en/java/javase/21/docs/api/) |
 | [**jBCrypt**](https://github.com/jeremyh/jBCrypt) | [GitHub Repository](https://github.com/jeremyh/jBCrypt) |
 | [**Slick**](https://scala-slick.org) | [Database Library Docs](https://scala-slick.org/doc/3.5.0-M1/) |
+| [**PostgreSQL**](https://www.postgresql.org) | [Documentation](https://www.postgresql.org/docs/current/) |
 
 ### Additional References
 
