@@ -11,7 +11,6 @@ import scalafx.application.Platform
 import scalafx.scene.paint.Color
 import scalafx.util.StringConverter
 import utils.FilterUtils.*
-
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object Inventory:

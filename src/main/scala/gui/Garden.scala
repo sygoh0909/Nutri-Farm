@@ -27,7 +27,6 @@ object Garden:
         controlPanel
       )
     }
-
     new StackPane {
       children = Seq(
         mainVBox,

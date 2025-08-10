@@ -12,7 +12,7 @@ implicit val cropTypeMapper: JdbcType[CropType] with BaseTypedType[CropType] =
     s => CropType.valueOf(s) // Convert String back to enum
   )
 
-class FoodTable(tag: Tag) extends Table[FoodItem](tag, "food_items"): // Using slick FRM mapping
+class FoodTable(tag: Tag) extends Table[FoodItem](tag, "food_items"): // Using Slick ORM mapping (FRM)
   def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def name = column[String]("name")
   def nutrition = column[String]("nutrition")

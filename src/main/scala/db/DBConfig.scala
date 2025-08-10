@@ -7,6 +7,6 @@ object DBConfig:
   val db = Database.forURL(
     url = "jdbc:postgresql://ep-cold-band-a1k2953j-pooler.ap-southeast-1.aws.neon.tech:5432/NutriFarm?sslmode=require&channelBinding=require",
     user = "neondb_owner",
-    password = "npg_8qaEMoxXKH2J", // Change to env var afterwards
+    password = "npg_8qaEMoxXKH2J",
     driver = "org.postgresql.Driver"
   )

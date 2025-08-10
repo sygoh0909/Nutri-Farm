@@ -4,10 +4,9 @@ object FilterUtils:
 
   // Filter by enum field
   def filterByEnumField[T, E](items: Seq[T], selected: Option[E])(extractField: T => E): Seq[T] =
-    selected match {
+    selected match
       case Some(enumValue) => items.filter(item => extractField(item) == enumValue)
       case None => items
-    }
 
   // Finds the first item where the field exactly matches the value (Future use)
   def filterByField[T](items: Seq[T], value: String)(extractField: T => String): Option[T] =

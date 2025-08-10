@@ -50,7 +50,6 @@ object Home:
                       headerText = "Confirm Log out?"
                       contentText = "You're using a guest account. Logging out will result in the loss of all game progress. Proceed?"
                     }
-
                     val stylesheet = getClass.getResource("/css/global.css").toExternalForm
                     confirmLogout.dialogPane().getStylesheets.add(stylesheet)
                     confirmLogout.dialogPane().getStyleClass.add("dialog-pane")
@@ -58,6 +57,7 @@ object Home:
                     val response = confirmLogout.showAndWait()
                     if response.contains(ButtonType.OK) then
                       stage.scene().setRoot(Landing.build(stage))  // Go back to login screen
+
                   else
                     // Confirm logout (normal logged-in players)
                     val confirmLogout = new Alert(AlertType.Confirmation) {
@@ -74,7 +74,6 @@ object Home:
           }
         )
       }
-
       // Main content
       val centerContent: VBox = new VBox {
         spacing = 30
@@ -104,5 +103,5 @@ object Home:
         )
       }
 
-      children = Seq(topBar, centerContent, MenuButton.build(stage, player)) // Top bar first, then the content
+      children = Seq(topBar, centerContent, MenuButton.build(stage, player)) // Top bar first, then the content, then only menu nav btn
     }

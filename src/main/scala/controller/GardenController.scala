@@ -26,7 +26,7 @@ object GardenController:
   private val rows = 2
   private val cols = 6
 
-  private var plantButton: Button = _
+  private var plantButton: Button = _ // underscore initialization
 
   // Track planted crops their growth status
   private val gardenCrop = Array.fill(rows, cols)("Empty")
@@ -96,7 +96,7 @@ object GardenController:
         harvestButtons(row)(col) = harvestBtn
 
         // If player harvest (press the btn) the crop, crop will be saved to their inventory and the crop will be reset to empty
-        harvestButtons(row)(col).onAction = _ => {
+        harvestButtons(row)(col).onAction = _ =>
           logger.info(s"[ACTION] Player '${player.name}' pressed Harvest on plot [$row,$col] → crop='${gardenCrop(row)(col)}', status='${gardenStatus(row)(col)}'")
 
           val crop = gardenCrop(row)(col)
@@ -145,7 +145,6 @@ object GardenController:
 
               alert.showAndWait()
             }
-        }
 
         // Clickable plot area (tile)
         val stackPane = new StackPane {

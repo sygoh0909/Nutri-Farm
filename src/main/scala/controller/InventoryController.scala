@@ -58,8 +58,8 @@ object InventoryController:
             toggleGroup = itemToggleGroup
             styleClass.add("item-button")
             maxWidth = Double.MaxValue
-            onAction = _ => {
-              if (selected.value) {
+            onAction = _ =>
+              if selected.value then
                 infoBox.children = Seq(
                   new Text(item.name) {
                     styleClass.add("detail-title")
@@ -67,10 +67,8 @@ object InventoryController:
                   expandableContent
                 )
                 infoBox.visible = true
-              } else {
+              else
                 infoBox.visible = false
-              }
-            }
           }
         )
       }
@@ -79,12 +77,12 @@ object InventoryController:
 
   def filterItems(items: Seq[FoodItem], cropType: Option[CropType], query: String): Seq[FoodItem] =
     var filtered = filterByEnumField(items, cropType)(_.cropType)
-    if (query.nonEmpty) {
+    if query.nonEmpty then
       val byName = filterAllByFieldContains(filtered, query)(_.name)
       val byNutrition = filterAllByFieldContains(filtered, query)(_.nutrition)
       val byCropType = filterAllByFieldContainsOpt(filtered, query)(item => Option(item.cropType))
       filtered = (byName ++ byNutrition ++ byCropType).distinct
-    }
+
     filtered
 
 

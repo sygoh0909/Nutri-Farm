@@ -11,14 +11,16 @@ object GameLogger:
 
   // Create logging folder if missing
   private val logDir = new File("logging")
-  if (!logDir.exists()) logDir.mkdirs()
+
+  if !logDir.exists() then
+    logDir.mkdirs()
 
   // Returns logger for given class (one log file per class per day)
   def getLogger(clazz: Class[_]): Logger =
     val name = clazz.getSimpleName
     val logger = Logger.getLogger(name)
 
-    if (logger.getHandlers.isEmpty) {
+    if logger.getHandlers.isEmpty then
       // File: logging/classname-yyyy-MM-dd.log
       val dateStr = new SimpleDateFormat("yyyy-MM-dd").format(new Date())
       val logFile = s"logging/${name.toLowerCase}-$dateStr.log"
@@ -34,6 +36,5 @@ object GameLogger:
       logger.addHandler(fileHandler)
       logger.setLevel(Level.ALL)
       logger.setUseParentHandlers(false)
-    }
 
     logger

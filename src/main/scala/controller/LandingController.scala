@@ -73,9 +73,10 @@ object LandingController:
 
     dialog.dialogPane().content = grid
 
-    // Disable the default close behavior on OK button click:
+    // Disable the default close behavior on OK button click
     val okButton = dialog.dialogPane().lookupButton(ButtonType.OK).asInstanceOf[javafx.scene.control.Button]
 
+    // Uses JavaFX event system since ScalaFX doesn't wrap and replace this feature
     okButton.addEventFilter(javafx.event.ActionEvent.ACTION, { event =>
       val email = emailField.text.value.trim
       val password = passwordField.text.value
