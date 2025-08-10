@@ -99,8 +99,7 @@ nutri-farm/
 │   │   │   └── utils/        # Utility functions
 │   │   │       └── FilterUtils.scala
 │   │   └── logging/          # Application logs
-│   │       ├── gardencontroller5-2025-08-08.log
-│   │       └── gardencontroller5-2025-08-09.log
+│   │       └── gardencontroller5-2025-08-10.log
 │   └── test/                 # Unit tests
 ├── target/                   # Compiled classes and build artifacts
 ├── project/                  # SBT configuration files
